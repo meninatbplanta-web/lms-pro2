@@ -305,17 +305,17 @@ const CoursePlayer: React.FC<{
     }
   };
 
-  // Menu items configuration matching the requested pastel colors
+  // Menu items configuration using darker colors for better visibility in dark theme
   const menuItems = [
-    { id: 'curso', label: 'Curso', icon: BookOpen, color: 'bg-white', hover: 'hover:bg-gray-50', iconColor: 'text-gray-700' },
-    { id: 'audio', label: 'Resumo em Áudio', icon: Headphones, color: 'bg-[#EEF2FF]', hover: 'hover:bg-[#E0E7FF]', iconColor: 'text-indigo-600' },
-    { id: 'video', label: 'Resumo em Vídeo', icon: Video, color: 'bg-[#F0FDF4]', hover: 'hover:bg-[#DCFCE7]', iconColor: 'text-green-600' },
-    { id: 'mindmap', label: 'Mapa mental', icon: Network, color: 'bg-[#FDF2F8]', hover: 'hover:bg-[#FCE7F3]', iconColor: 'text-pink-600' },
-    { id: 'materials', label: 'Materiais', icon: FileText, color: 'bg-[#FFFBEB]', hover: 'hover:bg-[#FEF3C7]', iconColor: 'text-yellow-600' },
-    { id: 'flashcards', label: 'Cartões didáticos', icon: Layers, color: 'bg-[#FFF7ED]', hover: 'hover:bg-[#FFEDD5]', iconColor: 'text-orange-600' },
-    { id: 'quiz', label: 'Teste', icon: HelpCircle, color: 'bg-[#EFF6FF]', hover: 'hover:bg-[#DBEAFE]', iconColor: 'text-blue-600' },
-    { id: 'infographic', label: 'Infográfico', icon: BarChart3, color: 'bg-[#F5F3FF]', hover: 'hover:bg-[#EDE9FE]', iconColor: 'text-purple-600' },
-    { id: 'slides', label: 'Apresentação de slides', icon: MonitorPlay, color: 'bg-[#FEFCE8]', hover: 'hover:bg-[#FEF9C3]', iconColor: 'text-yellow-700' },
+    { id: 'curso', label: 'Curso', icon: BookOpen, color: 'bg-gray-800', hover: 'hover:bg-gray-700', iconColor: 'text-white' },
+    { id: 'audio', label: 'Resumo em Áudio', icon: Headphones, color: 'bg-indigo-600', hover: 'hover:bg-indigo-700', iconColor: 'text-white' },
+    { id: 'video', label: 'Resumo em Vídeo', icon: Video, color: 'bg-emerald-600', hover: 'hover:bg-emerald-700', iconColor: 'text-white' },
+    { id: 'mindmap', label: 'Mapa mental', icon: Network, color: 'bg-pink-600', hover: 'hover:bg-pink-700', iconColor: 'text-white' },
+    { id: 'materials', label: 'Materiais', icon: FileText, color: 'bg-amber-600', hover: 'hover:bg-amber-700', iconColor: 'text-white' },
+    { id: 'flashcards', label: 'Cartões didáticos', icon: Layers, color: 'bg-orange-600', hover: 'hover:bg-orange-700', iconColor: 'text-white' },
+    { id: 'quiz', label: 'Teste', icon: HelpCircle, color: 'bg-blue-600', hover: 'hover:bg-blue-700', iconColor: 'text-white' },
+    { id: 'infographic', label: 'Infográfico', icon: BarChart3, color: 'bg-purple-600', hover: 'hover:bg-purple-700', iconColor: 'text-white' },
+    { id: 'slides', label: 'Apresentação de slides', icon: MonitorPlay, color: 'bg-yellow-600', hover: 'hover:bg-yellow-700', iconColor: 'text-white' },
   ];
 
   if (!enrollment) {
@@ -470,7 +470,7 @@ const CoursePlayer: React.FC<{
              )}
 
              {/* Horizontal Resources Menu */}
-             <div className="flex overflow-x-auto gap-4 py-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent pb-4 px-2">
+             <div className="flex overflow-x-auto gap-4 py-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent pb-4 px-4">
                 {menuItems.map((item) => (
                     <button
                         key={item.id}
@@ -481,10 +481,19 @@ const CoursePlayer: React.FC<{
                             : `${item.color} ${item.hover} opacity-90 hover:opacity-100 hover:scale-[1.02]`
                         }`}
                     >
-                        <div className={`p-2 rounded-full shadow-sm transition-transform ${activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'} ${item.id === 'curso' ? 'bg-gray-100' : 'bg-white'}`}>
-                           <item.icon className={`w-5 h-5 ${item.iconColor}`} />
+                        <div className={`p-2 rounded-full shadow-sm transition-transform ${activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'} bg-white`}>
+                           {/* Using specific colors for icons against white background */}
+                           {item.id === 'curso' && <item.icon className="w-5 h-5 text-gray-900" />}
+                           {item.id === 'audio' && <item.icon className="w-5 h-5 text-indigo-600" />}
+                           {item.id === 'video' && <item.icon className="w-5 h-5 text-emerald-600" />}
+                           {item.id === 'mindmap' && <item.icon className="w-5 h-5 text-pink-600" />}
+                           {item.id === 'materials' && <item.icon className="w-5 h-5 text-amber-600" />}
+                           {item.id === 'flashcards' && <item.icon className="w-5 h-5 text-orange-600" />}
+                           {item.id === 'quiz' && <item.icon className="w-5 h-5 text-blue-600" />}
+                           {item.id === 'infographic' && <item.icon className="w-5 h-5 text-purple-600" />}
+                           {item.id === 'slides' && <item.icon className="w-5 h-5 text-yellow-700" />}
                         </div>
-                        <span className={`font-semibold text-sm leading-tight ${item.iconColor.replace('text-', 'text-slate-')}`}>
+                        <span className="font-semibold text-sm leading-tight text-white">
                             {item.label}
                         </span>
                     </button>
@@ -496,8 +505,8 @@ const CoursePlayer: React.FC<{
                  <div className="space-y-8 animate-in fade-in duration-500">
                      {/* Mission Card */}
                      {activeLesson.richContent?.mission && (
-                        <div className="bg-[#1E1E1E] border-l-4 border-yellow-500 rounded-r-xl p-6 shadow-lg">
-                            <h3 className="text-yellow-500 font-bold text-lg flex items-center mb-3">
+                        <div className="bg-[#1E1E1E] border-l-8 border-yellow-400 rounded-r-xl p-6 shadow-lg">
+                            <h3 className="text-yellow-400 font-bold text-lg flex items-center mb-3">
                                 <Target className="w-5 h-5 mr-2" />
                                 {activeLesson.richContent.mission.title}
                             </h3>
