@@ -10,7 +10,7 @@ interface CourseCardProps {
 
 export const CourseCard: React.FC<CourseCardProps> = ({ course, enrollment, onClick }) => {
   const isEnrolled = !!enrollment;
-  const isCompleted = enrollment?.completedAt;
+  const isCompleted = !!enrollment?.completedAt;
   
   // Calculate stats
   const totalLessons = course.modules.reduce((acc, mod) => acc + mod.lessons.length, 0);
@@ -38,7 +38,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, enrollment, onCl
           </span>
         </div>
         {isCompleted && (
-          <div className="absolute top-3 left-3 bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full flex items-center text-xs font-bold">
+          <div className="absolute top-3 left-3 bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full flex items-center text-xs font-bold shadow-sm">
             <Award className="w-3 h-3 mr-1" /> Concluído
           </div>
         )}
@@ -58,13 +58,19 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, enrollment, onCl
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div 
-                  className="bg-indigo-600 h-2 rounded-full transition-all duration-500" 
+                  className={`h-2 rounded-full transition-all duration-500 ${isCompleted ? 'bg-green-500' : 'bg-indigo-600'}`}
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <div className="mt-3 text-indigo-600 text-sm font-medium flex items-center">
-                <PlayCircle className="w-4 h-4 mr-1" /> Continuar
-              </div>
+              {isCompleted ? (
+                <div className="mt-3 text-green-600 text-sm font-bold flex items-center">
+                  <Award className="w-4 h-4 mr-1" /> Curso Concluído
+                </div>
+              ) : (
+                <div className="mt-3 text-indigo-600 text-sm font-medium flex items-center">
+                  <PlayCircle className="w-4 h-4 mr-1" /> Continuar
+                </div>
+              )}
             </div>
           ) : (
             <div className="flex items-center justify-between text-sm text-gray-500">
