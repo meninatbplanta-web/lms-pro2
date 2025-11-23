@@ -14,9 +14,14 @@ export default defineConfig({
       "@shared": path.resolve(__dirname, "shared"),
     },
   },
-  root: __dirname,
+  root: path.resolve(__dirname), // Forces root to be the project root
   build: {
     outDir: "dist",
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'), // Explicitly point to root index.html
+      },
+    },
   },
 });
