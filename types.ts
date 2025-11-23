@@ -11,13 +11,49 @@ export interface User {
   role: UserRole;
 }
 
+export interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctIndex: number;
+}
+
+export interface RichContent {
+  mission?: {
+    title: string;
+    description: string;
+    actionLabel: string;
+  };
+  sticker?: {
+    title: string;
+    url: string; // Using string URL instead of local asset for mock
+  };
+  miniGame?: {
+    title: string;
+    cards: {
+      imageUrl: string;
+      description: string;
+      revealText: string;
+    }[];
+  };
+  quiz?: {
+    questions: QuizQuestion[];
+  };
+  insights?: string[];
+  materials?: {
+    title: string;
+    url: string;
+  }[];
+}
+
 export interface Lesson {
   id: string;
   title: string;
-  content: string; // Markdown content
+  content: string; // Markdown content or description
   videoUrl?: string;
-  duration: string; // Changed from number to string to support "5:47" format
-  releaseDate?: string; // ISO Date string. If null, available immediately.
+  duration: string;
+  releaseDate?: string;
+  // New Rich Content Fields
+  richContent?: RichContent;
 }
 
 export interface Module {
