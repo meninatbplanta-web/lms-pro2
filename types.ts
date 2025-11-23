@@ -1,3 +1,4 @@
+
 export enum UserRole {
   STUDENT = 'student',
   ADMIN = 'admin'
@@ -15,7 +16,7 @@ export interface Lesson {
   title: string;
   content: string; // Markdown content
   videoUrl?: string;
-  durationMinutes: number;
+  duration: string; // Changed from number to string to support "5:47" format
   releaseDate?: string; // ISO Date string. If null, available immediately.
 }
 

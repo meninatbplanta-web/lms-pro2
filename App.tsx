@@ -241,7 +241,7 @@ const CoursePlayer: React.FC<{
                         <Play className="w-4 h-4 mr-2 text-indigo-400" />
                         {les.title}
                         <span className="ml-auto text-xs bg-gray-100 px-2 py-1 rounded">
-                          {les.durationMinutes} min
+                          {les.duration}
                         </span>
                       </li>
                     ))}
@@ -253,17 +253,17 @@ const CoursePlayer: React.FC<{
           
           <div className="lg:col-span-1">
             <div className="bg-white shadow-lg rounded-xl p-6 sticky top-24 border border-gray-100">
-              <img src={course.thumbnail} alt="Cover" className="w-full h-48 object-cover rounded-lg mb-6" />
               <div className="text-3xl font-bold text-gray-900 mb-6 text-center">
                 {course.price === 0 ? 'Gratuito' : `R$ ${course.price.toFixed(2)}`}
               </div>
               <button 
                 onClick={onEnroll}
-                className="w-full bg-indigo-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all transform active:scale-95"
+                className="w-full bg-indigo-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all transform active:scale-95 mb-6"
               >
                 Matricular-se Agora
               </button>
-              <p className="text-xs text-center text-gray-500 mt-4">
+              <img src={course.thumbnail} alt="Cover" className="w-full h-48 object-cover rounded-lg mb-4" />
+              <p className="text-xs text-center text-gray-500 mt-2">
                 Acesso vitalício • Certificado incluso
               </p>
             </div>
@@ -313,7 +313,7 @@ const CoursePlayer: React.FC<{
                        <div>
                          <div className="font-medium">{les.title}</div>
                          <div className="text-xs text-gray-400 mt-1 flex items-center">
-                           {les.durationMinutes} min
+                           {les.duration}
                            {les.releaseDate && locked && (
                              <span className="ml-2 flex items-center text-orange-600">
                                <Calendar className="w-3 h-3 mr-1" /> 

@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { Course } from "../types";
 
@@ -14,7 +15,7 @@ export const generateCourseOutline = async (topic: string, audience: string): Pr
     const model = "gemini-2.5-flash";
     const prompt = `Crie uma estrutura de curso online sobre "${topic}" focado em "${audience}".
     O curso deve ter um título cativante, uma descrição curta e 2 módulos, cada um com 2 aulas.
-    Para cada aula, forneça um título, uma duração estimada em minutos e um breve conteúdo em markdown.
+    Para cada aula, forneça um título, uma duração estimada (ex: "10 min") e um breve conteúdo em markdown.
     `;
 
     const response = await ai.models.generateContent({
@@ -39,10 +40,10 @@ export const generateCourseOutline = async (topic: string, audience: string): Pr
                       type: Type.OBJECT,
                       properties: {
                         title: { type: Type.STRING },
-                        durationMinutes: { type: Type.NUMBER },
+                        duration: { type: Type.STRING, description: "Estimated duration string e.g. '15 min'" },
                         content: { type: Type.STRING, description: "Educational content in markdown format" }
                       },
-                      required: ["title", "durationMinutes", "content"]
+                      required: ["title", "duration", "content"]
                     }
                   }
                 },
@@ -69,7 +70,7 @@ export const generateCourseOutline = async (topic: string, audience: string): Pr
           lessons: mod.lessons.map((les: any, lIdx: number) => ({
             id: `les-${Date.now()}-${idx}-${lIdx}`,
             title: les.title,
-            durationMinutes: les.durationMinutes,
+            duration: les.duration,
             content: les.content,
             releaseDate: undefined // Available immediately by default
           }))
