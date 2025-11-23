@@ -477,14 +477,14 @@ const CoursePlayer: React.FC<{
                         onClick={() => setActiveTab(item.id)}
                         className={`flex-shrink-0 w-48 h-24 rounded-xl p-4 cursor-pointer transition-all duration-300 flex items-center gap-3 group text-left relative ${
                             activeTab === item.id 
-                            ? `ring-2 ring-offset-2 ring-offset-[#111] ring-white ${item.color} scale-105 shadow-lg z-10` 
+                            ? `ring-2 ring-offset-2 ring-offset-[#111] ring-white scale-105 shadow-lg z-10 ${item.id === 'curso' ? 'bg-gradient-to-br from-purple-600 to-pink-500 text-white' : item.id === 'materials' ? 'bg-gradient-to-br from-yellow-500 to-orange-500 text-white' : item.color}` 
                             : `${item.color} ${item.hover} opacity-90 hover:opacity-100 hover:scale-[1.02]`
                         }`}
                     >
-                        <div className={`p-2 rounded-full shadow-sm transition-transform ${activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'} ${item.id === 'curso' ? 'bg-gray-100' : 'bg-white'}`}>
-                           <item.icon className={`w-5 h-5 ${item.iconColor}`} />
+                        <div className={`p-2 rounded-full shadow-sm transition-transform ${activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'} ${activeTab === item.id ? 'bg-white/20' : item.id === 'curso' ? 'bg-gray-100' : 'bg-white'}`}>
+                           <item.icon className={`w-5 h-5 ${activeTab === item.id ? 'text-white' : item.iconColor}`} />
                         </div>
-                        <span className={`font-semibold text-sm leading-tight ${item.iconColor.replace('text-', 'text-slate-')}`}>
+                        <span className={`font-semibold text-sm leading-tight ${activeTab === item.id ? 'text-white' : item.iconColor.replace('text-', 'text-slate-')}`}>
                             {item.label}
                         </span>
                     </button>
