@@ -13,7 +13,9 @@ import {
   Play, CheckCircle, Lock, Calendar, ChevronLeft, 
   Menu, X, Loader2, Plus, Wand2, Trash2, 
   Star, Download, MessageSquare, Trophy, Target, 
-  Eye, Lightbulb, Clock, Share2, ArrowRight
+  Eye, Lightbulb, Clock, Share2, ArrowRight,
+  Headphones, Video, Network, FileText, Layers, HelpCircle,
+  BarChart3, MonitorPlay, BookOpen
 } from 'lucide-react';
 
 // 1. Home Page
@@ -193,15 +195,19 @@ const CoursePlayer: React.FC<{
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
   // Widget States
+  const [activeTab, setActiveTab] = useState('curso');
   const [missionDone, setMissionDone] = useState(false);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number | null>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [unlockedSticker, setUnlockedSticker] = useState(false);
   const [reflection, setReflection] = useState("");
   const [miniGameRevealed, setMiniGameRevealed] = useState<number | null>(null);
+  const [timeLeft, setTimeLeft] = useState<string>("");
+  const [nextLesson, setNextLesson] = useState<Lesson | null>(null);
 
   // Reset widget states when lesson changes
   useEffect(() => {
+    setActiveTab('curso');
     setMissionDone(false);
     setQuizAnswers({});
     setQuizSubmitted(false);
@@ -210,21 +216,66 @@ const CoursePlayer: React.FC<{
     setMiniGameRevealed(null);
   }, [activeLesson?.id]);
 
+  // Determine active lesson and next lesson
   useEffect(() => {
+    let foundLesson = null;
+    let next = null;
+    let foundActive = false;
+
     if (!lessonId) {
       if (course.modules.length > 0 && course.modules[0].lessons.length > 0) {
-        setActiveLesson(course.modules[0].lessons[0]);
+        foundLesson = course.modules[0].lessons[0];
       }
     } else {
       for (const mod of course.modules) {
-        const found = mod.lessons.find(l => l.id === lessonId);
-        if (found) {
-          setActiveLesson(found);
-          break;
+        for (const l of mod.lessons) {
+          if (foundActive) {
+            next = l;
+            foundActive = false; // Found the immediate next one
+            break;
+          }
+          if (l.id === lessonId) {
+            foundLesson = l;
+            foundActive = true;
+          }
         }
+        if (next) break;
       }
     }
+    
+    setActiveLesson(foundLesson);
+    setNextLesson(next);
   }, [lessonId, course]);
+
+  // Countdown Logic
+  useEffect(() => {
+    if (!nextLesson || !nextLesson.releaseDate) {
+      setTimeLeft("");
+      return;
+    }
+
+    const targetDate = new Date(nextLesson.releaseDate).getTime();
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        setTimeLeft("Disponível Agora");
+        clearInterval(interval);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [nextLesson]);
 
   const isLessonLocked = (lesson: Lesson) => {
     if (!enrollment) return true; 
@@ -253,6 +304,19 @@ const CoursePlayer: React.FC<{
         }
     }
   };
+
+  // Menu items configuration matching the requested pastel colors
+  const menuItems = [
+    { id: 'curso', label: 'Curso', icon: BookOpen, color: 'bg-white', hover: 'hover:bg-gray-50', iconColor: 'text-gray-700' },
+    { id: 'audio', label: 'Resumo em Áudio', icon: Headphones, color: 'bg-[#EEF2FF]', hover: 'hover:bg-[#E0E7FF]', iconColor: 'text-indigo-600' },
+    { id: 'video', label: 'Resumo em Vídeo', icon: Video, color: 'bg-[#F0FDF4]', hover: 'hover:bg-[#DCFCE7]', iconColor: 'text-green-600' },
+    { id: 'mindmap', label: 'Mapa mental', icon: Network, color: 'bg-[#FDF2F8]', hover: 'hover:bg-[#FCE7F3]', iconColor: 'text-pink-600' },
+    { id: 'materials', label: 'Materiais', icon: FileText, color: 'bg-[#FFFBEB]', hover: 'hover:bg-[#FEF3C7]', iconColor: 'text-yellow-600' },
+    { id: 'flashcards', label: 'Cartões didáticos', icon: Layers, color: 'bg-[#FFF7ED]', hover: 'hover:bg-[#FFEDD5]', iconColor: 'text-orange-600' },
+    { id: 'quiz', label: 'Teste', icon: HelpCircle, color: 'bg-[#EFF6FF]', hover: 'hover:bg-[#DBEAFE]', iconColor: 'text-blue-600' },
+    { id: 'infographic', label: 'Infográfico', icon: BarChart3, color: 'bg-[#F5F3FF]', hover: 'hover:bg-[#EDE9FE]', iconColor: 'text-purple-600' },
+    { id: 'slides', label: 'Apresentação de slides', icon: MonitorPlay, color: 'bg-[#FEFCE8]', hover: 'hover:bg-[#FEF9C3]', iconColor: 'text-yellow-700' },
+  ];
 
   if (!enrollment) {
     // Landing page (unchanged)
@@ -395,7 +459,7 @@ const CoursePlayer: React.FC<{
 
              {/* Video Player */}
              {activeLesson.videoUrl && (
-               <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-gray-800">
+               <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-gray-800 relative group">
                  <iframe 
                    src={activeLesson.videoUrl} 
                    title={activeLesson.title}
@@ -405,215 +469,262 @@ const CoursePlayer: React.FC<{
                </div>
              )}
 
-             {/* Mission Card */}
-             {activeLesson.richContent?.mission && (
-                <div className="bg-[#1E1E1E] border-l-4 border-yellow-500 rounded-r-xl p-6 shadow-lg">
-                    <h3 className="text-yellow-500 font-bold text-lg flex items-center mb-3">
-                        <Target className="w-5 h-5 mr-2" />
-                        {activeLesson.richContent.mission.title}
-                    </h3>
-                    <p className="text-gray-300 mb-4">{activeLesson.richContent.mission.description}</p>
-                    <button 
-                        onClick={() => setMissionDone(true)}
-                        disabled={missionDone}
-                        className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${missionDone ? 'bg-green-900 text-green-300' : 'bg-gray-700 hover:bg-gray-600 text-white'}`}
+             {/* Horizontal Resources Menu */}
+             <div className="flex overflow-x-auto gap-4 py-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent pb-4 px-2">
+                {menuItems.map((item) => (
+                    <button
+                        key={item.id}
+                        onClick={() => setActiveTab(item.id)}
+                        className={`flex-shrink-0 w-48 h-24 rounded-xl p-4 cursor-pointer transition-all duration-300 flex items-center gap-3 group text-left relative ${
+                            activeTab === item.id 
+                            ? `ring-2 ring-offset-2 ring-offset-[#111] ring-white ${item.color} scale-105 shadow-lg z-10` 
+                            : `${item.color} ${item.hover} opacity-90 hover:opacity-100 hover:scale-[1.02]`
+                        }`}
                     >
-                        {missionDone ? "Missão Registrada ✓" : activeLesson.richContent.mission.actionLabel}
+                        <div className={`p-2 rounded-full shadow-sm transition-transform ${activeTab === item.id ? 'scale-110' : 'group-hover:scale-110'} ${item.id === 'curso' ? 'bg-gray-100' : 'bg-white'}`}>
+                           <item.icon className={`w-5 h-5 ${item.iconColor}`} />
+                        </div>
+                        <span className={`font-semibold text-sm leading-tight ${item.iconColor.replace('text-', 'text-slate-')}`}>
+                            {item.label}
+                        </span>
                     </button>
-                </div>
-             )}
-
-             {/* Sticker Unlock */}
-             {(unlockedSticker || isLessonCompleted(activeLesson.id)) && activeLesson.richContent?.sticker && (
-                 <div className="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-xl p-6 flex items-center justify-between animate-fade-in">
-                     <div>
-                         <h3 className="text-purple-200 font-bold mb-1">Sticker Exclusivo Desbloqueado!</h3>
-                         <p className="text-white font-bold text-lg">“{activeLesson.richContent.sticker.title}”</p>
-                         <div className="mt-3 flex space-x-3">
-                             <button className="bg-white text-purple-900 px-3 py-1 rounded text-xs font-bold flex items-center">
-                                 <Download className="w-3 h-3 mr-1" /> Baixar
-                             </button>
-                             <button className="bg-purple-800 text-white px-3 py-1 rounded text-xs font-bold flex items-center">
-                                 <Share2 className="w-3 h-3 mr-1" /> Compartilhar
-                             </button>
-                         </div>
-                     </div>
-                     <img src={activeLesson.richContent.sticker.url} alt="Sticker" className="w-20 h-20 object-contain drop-shadow-lg animate-bounce" />
-                 </div>
-             )}
-
-             {/* Main Description */}
-             <div className="prose prose-invert max-w-none bg-[#1E1E1E] p-8 rounded-xl shadow-sm border border-gray-800">
-               <ReactMarkdown>{activeLesson.content}</ReactMarkdown>
+                ))}
              </div>
 
-             {/* Mini Game */}
-             {activeLesson.richContent?.miniGame && (
-                 <div className="space-y-4">
-                     <h3 className="text-xl font-bold text-white flex items-center">
-                         <Eye className="w-5 h-5 mr-2 text-blue-400" /> 
-                         {activeLesson.richContent.miniGame.title}
-                     </h3>
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                         {activeLesson.richContent.miniGame.cards.map((card, idx) => (
-                             <div 
-                                key={idx} 
-                                onClick={() => setMiniGameRevealed(miniGameRevealed === idx ? null : idx)}
-                                className="bg-[#1E1E1E] rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all"
-                             >
-                                 {miniGameRevealed === idx ? (
-                                     <div className="p-6 flex flex-col items-center justify-center h-full text-center bg-blue-900/20">
-                                         <Lightbulb className="w-8 h-8 text-yellow-400 mb-2" />
-                                         <p className="text-blue-200 text-sm">{card.revealText}</p>
-                                     </div>
-                                 ) : (
-                                     <>
-                                        <div className="h-40 bg-gray-800 relative">
-                                            <img src={card.imageUrl} className="w-full h-full object-cover opacity-60" alt="" />
-                                            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                                <span className="text-white font-bold text-lg drop-shadow-md">{card.description}</span>
-                                            </div>
-                                        </div>
-                                        <div className="p-3 text-center text-xs text-gray-400 uppercase tracking-wider">
-                                            Clique para revelar
-                                        </div>
-                                     </>
-                                 )}
-                             </div>
-                         ))}
-                     </div>
-                 </div>
-             )}
+             {/* Dynamic Content Area */}
+             {activeTab === 'curso' ? (
+                 <div className="space-y-8 animate-in fade-in duration-500">
+                     {/* Mission Card */}
+                     {activeLesson.richContent?.mission && (
+                        <div className="bg-[#1E1E1E] border-l-4 border-yellow-500 rounded-r-xl p-6 shadow-lg">
+                            <h3 className="text-yellow-500 font-bold text-lg flex items-center mb-3">
+                                <Target className="w-5 h-5 mr-2" />
+                                {activeLesson.richContent.mission.title}
+                            </h3>
+                            <p className="text-gray-300 mb-4">{activeLesson.richContent.mission.description}</p>
+                            <button 
+                                onClick={() => setMissionDone(true)}
+                                disabled={missionDone}
+                                className={`px-4 py-2 rounded-lg font-bold text-sm transition-colors ${missionDone ? 'bg-green-900 text-green-300' : 'bg-gray-700 hover:bg-gray-600 text-white'}`}
+                            >
+                                {missionDone ? "Missão Registrada ✓" : activeLesson.richContent.mission.actionLabel}
+                            </button>
+                        </div>
+                     )}
 
-             {/* Reflection */}
-             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-gray-800">
-                 <h3 className="text-lg font-bold text-white mb-3 flex items-center">
-                     <MessageSquare className="w-5 h-5 mr-2 text-pink-500" /> 
-                     Reflexão Guiada
-                 </h3>
-                 <p className="text-gray-400 text-sm mb-4">“O que o meu corpo está tentando me contar hoje?”</p>
-                 <textarea 
-                    value={reflection}
-                    onChange={(e) => setReflection(e.target.value)}
-                    placeholder="Escreva aqui sua reflexão..."
-                    className="w-full bg-gray-900 text-white p-4 rounded-lg border border-gray-700 focus:border-pink-500 outline-none h-24 text-sm"
-                 />
-             </div>
-
-             {/* Quiz */}
-             {activeLesson.richContent?.quiz && (
-                 <div className="bg-[#1E1E1E] p-6 rounded-xl border border-gray-800">
-                     <h3 className="text-lg font-bold text-white mb-6 flex items-center">
-                         <Target className="w-5 h-5 mr-2 text-red-500" />
-                         Quiz Relâmpago
-                     </h3>
-                     {quizSubmitted ? (
-                         <div className="text-center py-8">
-                             <p className="text-3xl mb-2">🎉</p>
-                             <h4 className="text-xl font-bold text-white">Você acertou {calculateQuizScore()}/{activeLesson.richContent.quiz.questions.length}!</h4>
-                             <p className="text-gray-400 text-sm mt-2">
-                                 {calculateQuizScore() === activeLesson.richContent.quiz.questions.length 
-                                    ? "Excelente! Você dominou o conteúdo." 
-                                    : "Continue praticando, rever a aula pode ajudar!"}
-                             </p>
-                             <button 
-                                onClick={() => { setQuizSubmitted(false); setQuizAnswers({}); }}
-                                className="mt-4 text-red-400 text-sm hover:underline"
-                             >
-                                 Tentar novamente
-                             </button>
-                         </div>
-                     ) : (
-                         <div className="space-y-6">
-                             {activeLesson.richContent.quiz.questions.map((q, qIdx) => (
-                                 <div key={qIdx}>
-                                     <p className="text-gray-200 font-medium mb-3">{qIdx + 1}. {q.question}</p>
-                                     <div className="space-y-2">
-                                         {q.options.map((opt, oIdx) => (
-                                             <button
-                                                key={oIdx}
-                                                onClick={() => setQuizAnswers(prev => ({...prev, [qIdx]: oIdx}))}
-                                                className={`w-full text-left p-3 rounded-lg text-sm border transition-all ${
-                                                    quizAnswers[qIdx] === oIdx 
-                                                        ? 'bg-red-900/30 border-red-500 text-white' 
-                                                        : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-750'
-                                                }`}
-                                             >
-                                                 {opt}
-                                             </button>
-                                         ))}
-                                     </div>
+                     {/* Sticker Unlock */}
+                     {(unlockedSticker || isLessonCompleted(activeLesson.id)) && activeLesson.richContent?.sticker && (
+                         <div className="bg-gradient-to-r from-purple-900 to-indigo-900 rounded-xl p-6 flex items-center justify-between animate-fade-in">
+                             <div>
+                                 <h3 className="text-purple-200 font-bold mb-1">Sticker Exclusivo Desbloqueado!</h3>
+                                 <p className="text-white font-bold text-lg">“{activeLesson.richContent.sticker.title}”</p>
+                                 <div className="mt-3 flex space-x-3">
+                                     <button className="bg-white text-purple-900 px-3 py-1 rounded text-xs font-bold flex items-center">
+                                         <Download className="w-3 h-3 mr-1" /> Baixar
+                                     </button>
+                                     <button className="bg-purple-800 text-white px-3 py-1 rounded text-xs font-bold flex items-center">
+                                         <Share2 className="w-3 h-3 mr-1" /> Compartilhar
+                                     </button>
                                  </div>
-                             ))}
-                             <button 
-                                disabled={Object.keys(quizAnswers).length < activeLesson.richContent.quiz.questions.length}
-                                onClick={() => setQuizSubmitted(true)}
-                                className="w-full bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg mt-4"
-                             >
-                                 Verificar Respostas
-                             </button>
+                             </div>
+                             <img src={activeLesson.richContent.sticker.url} alt="Sticker" className="w-20 h-20 object-contain drop-shadow-lg animate-bounce" />
                          </div>
+                     )}
+
+                     {/* Main Description */}
+                     <div className="prose prose-invert max-w-none bg-[#1E1E1E] p-8 rounded-xl shadow-sm border border-gray-800">
+                       <ReactMarkdown>{activeLesson.content}</ReactMarkdown>
+                     </div>
+
+                     {/* Mini Game */}
+                     {activeLesson.richContent?.miniGame && (
+                         <div className="space-y-4">
+                             <h3 className="text-xl font-bold text-white flex items-center">
+                                 <Eye className="w-5 h-5 mr-2 text-blue-400" /> 
+                                 {activeLesson.richContent.miniGame.title}
+                             </h3>
+                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                 {activeLesson.richContent.miniGame.cards.map((card, idx) => (
+                                     <div 
+                                        key={idx} 
+                                        onClick={() => setMiniGameRevealed(miniGameRevealed === idx ? null : idx)}
+                                        className="bg-[#1E1E1E] rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-500 transition-all"
+                                     >
+                                         {miniGameRevealed === idx ? (
+                                             <div className="p-6 flex flex-col items-center justify-center h-full text-center bg-blue-900/20">
+                                                 <Lightbulb className="w-8 h-8 text-yellow-400 mb-2" />
+                                                 <p className="text-blue-200 text-sm">{card.revealText}</p>
+                                             </div>
+                                         ) : (
+                                             <>
+                                                <div className="h-40 bg-gray-800 relative">
+                                                    <img src={card.imageUrl} className="w-full h-full object-cover opacity-60" alt="" />
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                                        <span className="text-white font-bold text-lg drop-shadow-md">{card.description}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="p-3 text-center text-xs text-gray-400 uppercase tracking-wider">
+                                                    Clique para revelar
+                                                </div>
+                                             </>
+                                         )}
+                                     </div>
+                                 ))}
+                             </div>
+                         </div>
+                     )}
+
+                     {/* Reflection */}
+                     <div className="bg-[#1E1E1E] p-6 rounded-xl border border-gray-800">
+                         <h3 className="text-lg font-bold text-white mb-3 flex items-center">
+                             <MessageSquare className="w-5 h-5 mr-2 text-pink-500" /> 
+                             Reflexão Guiada
+                         </h3>
+                         <p className="text-gray-400 text-sm mb-4">“O que o meu corpo está tentando me contar hoje?”</p>
+                         <textarea 
+                            value={reflection}
+                            onChange={(e) => setReflection(e.target.value)}
+                            placeholder="Escreva aqui sua reflexão..."
+                            className="w-full bg-gray-900 text-white p-4 rounded-lg border border-gray-700 focus:border-pink-500 outline-none h-24 text-sm"
+                         />
+                     </div>
+
+                     {/* Quiz */}
+                     {activeLesson.richContent?.quiz && (
+                         <div className="bg-[#1E1E1E] p-6 rounded-xl border border-gray-800">
+                             <h3 className="text-lg font-bold text-white mb-6 flex items-center">
+                                 <Target className="w-5 h-5 mr-2 text-red-500" />
+                                 Quiz Relâmpago
+                             </h3>
+                             {quizSubmitted ? (
+                                 <div className="text-center py-8">
+                                     <p className="text-3xl mb-2">🎉</p>
+                                     <h4 className="text-xl font-bold text-white">Você acertou {calculateQuizScore()}/{activeLesson.richContent.quiz.questions.length}!</h4>
+                                     <p className="text-gray-400 text-sm mt-2">
+                                         {calculateQuizScore() === activeLesson.richContent.quiz.questions.length 
+                                            ? "Excelente! Você dominou o conteúdo." 
+                                            : "Continue praticando, rever a aula pode ajudar!"}
+                                     </p>
+                                     <button 
+                                        onClick={() => { setQuizSubmitted(false); setQuizAnswers({}); }}
+                                        className="mt-4 text-red-400 text-sm hover:underline"
+                                     >
+                                         Tentar novamente
+                                     </button>
+                                 </div>
+                             ) : (
+                                 <div className="space-y-6">
+                                     {activeLesson.richContent.quiz.questions.map((q, qIdx) => (
+                                         <div key={qIdx}>
+                                             <p className="text-gray-200 font-medium mb-3">{qIdx + 1}. {q.question}</p>
+                                             <div className="space-y-2">
+                                                 {q.options.map((opt, oIdx) => (
+                                                     <button
+                                                        key={oIdx}
+                                                        onClick={() => setQuizAnswers(prev => ({...prev, [qIdx]: oIdx}))}
+                                                        className={`w-full text-left p-3 rounded-lg text-sm border transition-all ${
+                                                            quizAnswers[qIdx] === oIdx 
+                                                                ? 'bg-red-900/30 border-red-500 text-white' 
+                                                                : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-750'
+                                                        }`}
+                                                     >
+                                                         {opt}
+                                                     </button>
+                                                 ))}
+                                             </div>
+                                         </div>
+                                     ))}
+                                     <button 
+                                        disabled={Object.keys(quizAnswers).length < activeLesson.richContent.quiz.questions.length}
+                                        onClick={() => setQuizSubmitted(true)}
+                                        className="w-full bg-red-600 hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg mt-4"
+                                     >
+                                         Verificar Respostas
+                                     </button>
+                                 </div>
+                             )}
+                         </div>
+                     )}
+
+                     {/* Insights */}
+                     {activeLesson.richContent?.insights && (
+                         <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border border-gray-700">
+                             <h3 className="text-lg font-bold text-white mb-4 flex items-center">
+                                 <Star className="w-5 h-5 mr-2 text-yellow-400" />
+                                 Insight Essencial
+                             </h3>
+                             <div className="space-y-3">
+                                 {activeLesson.richContent.insights.map((insight, idx) => (
+                                     <div key={idx} className="flex items-start">
+                                         <div className="w-1.5 h-1.5 rounded-full bg-yellow-400 mt-2 mr-3 flex-shrink-0"></div>
+                                         <p className="text-gray-300 italic">"{insight}"</p>
+                                     </div>
+                                 ))}
+                             </div>
+                         </div>
+                     )}
+
+                     {/* Countdown (Now Dynamic) */}
+                     {nextLesson && (
+                       <div className="text-center py-6 border-t border-gray-800">
+                           <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">
+                             Próxima Aula: <span className="text-gray-300 font-bold">{nextLesson.title}</span>
+                           </p>
+                           <div className="text-2xl font-mono font-bold text-white flex justify-center items-center space-x-2">
+                               <Clock className="w-6 h-6 text-gray-600" />
+                               <span>{timeLeft}</span>
+                           </div>
+                       </div>
+                     )}
+
+                     {/* Completion Action */}
+                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4">
+                       <div className="flex flex-col space-y-2 w-full md:w-auto">
+                           {/* Materials moved to tab */}
+                       </div>
+
+                       {!isLessonCompleted(activeLesson.id) ? (
+                         <button 
+                           onClick={handleComplete}
+                           className="w-full md:w-auto bg-green-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-green-700 flex items-center justify-center shadow-lg shadow-green-900/20 hover:shadow-green-900/40 transition-all transform hover:scale-105"
+                         >
+                           <CheckCircle className="w-5 h-5 mr-2" />
+                           Marcar como Concluída
+                         </button>
+                       ) : (
+                         <button disabled className="w-full md:w-auto bg-gray-800 text-gray-500 border border-gray-700 px-8 py-4 rounded-xl font-bold flex items-center justify-center cursor-default">
+                           <CheckCircle className="w-5 h-5 mr-2" />
+                           Concluída
+                         </button>
+                       )}
+                     </div>
+                 </div>
+             ) : (
+                 // Placeholder Frame for other tabs
+                 <div className="bg-[#1E1E1E] rounded-xl p-12 text-center border border-gray-800 animate-in fade-in duration-500 min-h-[400px] flex flex-col items-center justify-center">
+                     <div className="bg-gray-800 p-4 rounded-full mb-4">
+                         {(() => {
+                             const ItemIcon = menuItems.find(i => i.id === activeTab)?.icon || Star;
+                             return <ItemIcon className="w-12 h-12 text-gray-400" />;
+                         })()}
+                     </div>
+                     <h2 className="text-2xl font-bold text-white mb-2">{menuItems.find(i => i.id === activeTab)?.label}</h2>
+                     <p className="text-gray-400">Conteúdo em breve...</p>
+                     
+                     {/* Show materials list specifically for 'materials' tab if we have them */}
+                     {activeTab === 'materials' && activeLesson.richContent?.materials && (
+                          <div className="mt-8 w-full max-w-md space-y-3 text-left">
+                              {activeLesson.richContent.materials.map((mat, idx) => (
+                                 <a key={idx} href={mat.url} className="flex items-center p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors group">
+                                     <FileText className="w-5 h-5 text-yellow-500 mr-3" />
+                                     <span className="text-gray-200 group-hover:text-white flex-1">{mat.title}</span>
+                                     <Download className="w-4 h-4 text-gray-500 group-hover:text-white" />
+                                 </a>
+                              ))}
+                          </div>
                      )}
                  </div>
              )}
-
-             {/* Insights */}
-             {activeLesson.richContent?.insights && (
-                 <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl border border-gray-700">
-                     <h3 className="text-lg font-bold text-white mb-4 flex items-center">
-                         <Star className="w-5 h-5 mr-2 text-yellow-400" />
-                         Insight Essencial
-                     </h3>
-                     <div className="space-y-3">
-                         {activeLesson.richContent.insights.map((insight, idx) => (
-                             <div key={idx} className="flex items-start">
-                                 <div className="w-1.5 h-1.5 rounded-full bg-yellow-400 mt-2 mr-3 flex-shrink-0"></div>
-                                 <p className="text-gray-300 italic">"{insight}"</p>
-                             </div>
-                         ))}
-                     </div>
-                 </div>
-             )}
-
-             {/* Countdown Mock */}
-             <div className="text-center py-6 border-t border-gray-800">
-                 <p className="text-gray-500 text-xs uppercase tracking-widest mb-2">Próxima Aula em breve</p>
-                 <div className="text-2xl font-mono font-bold text-white flex justify-center items-center space-x-2">
-                     <Clock className="w-6 h-6 text-gray-600" />
-                     <span>47:59:12</span>
-                 </div>
-             </div>
-
-             {/* Completion Action */}
-             <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-4">
-               <div className="flex flex-col space-y-2 w-full md:w-auto">
-                   {activeLesson.richContent?.materials && (
-                       <div className="flex flex-col space-y-2">
-                           <span className="text-xs text-gray-500 uppercase font-bold">Materiais</span>
-                           {activeLesson.richContent.materials.map((mat, idx) => (
-                               <a key={idx} href={mat.url} className="text-blue-400 hover:text-blue-300 text-sm flex items-center">
-                                   <Download className="w-3 h-3 mr-2" /> {mat.title}
-                               </a>
-                           ))}
-                       </div>
-                   )}
-               </div>
-
-               {!isLessonCompleted(activeLesson.id) ? (
-                 <button 
-                   onClick={handleComplete}
-                   className="w-full md:w-auto bg-green-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-green-700 flex items-center justify-center shadow-lg shadow-green-900/20 hover:shadow-green-900/40 transition-all transform hover:scale-105"
-                 >
-                   <CheckCircle className="w-5 h-5 mr-2" />
-                   Marcar como Concluída
-                 </button>
-               ) : (
-                 <button disabled className="w-full md:w-auto bg-gray-800 text-gray-500 border border-gray-700 px-8 py-4 rounded-xl font-bold flex items-center justify-center cursor-default">
-                   <CheckCircle className="w-5 h-5 mr-2" />
-                   Concluída
-                 </button>
-               )}
-             </div>
            </div>
          ) : (
            <div className="flex items-center justify-center h-full text-gray-600">
