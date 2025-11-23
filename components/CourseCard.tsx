@@ -1,6 +1,6 @@
 import React from 'react';
 import { Course, Enrollment } from '../types';
-import { Clock, Book, Lock, Unlock, PlayCircle, Award } from 'lucide-react';
+import { Clock, Book, Lock, Unlock, PlayCircle, Trophy } from 'lucide-react';
 
 interface CourseCardProps {
   course: Course;
@@ -39,7 +39,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, enrollment, onCl
         </div>
         {isCompleted && (
           <div className="absolute top-3 left-3 bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full flex items-center text-xs font-bold shadow-sm">
-            <Award className="w-3 h-3 mr-1" /> Concluído
+            <Trophy className="w-3 h-3 mr-1" /> Concluído
           </div>
         )}
       </div>
@@ -64,7 +64,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, enrollment, onCl
               </div>
               {isCompleted ? (
                 <div className="mt-3 text-green-600 text-sm font-bold flex items-center">
-                  <Award className="w-4 h-4 mr-1" /> Curso Concluído
+                  <Trophy className="w-4 h-4 mr-1" /> Curso Concluído
                 </div>
               ) : (
                 <div className="mt-3 text-indigo-600 text-sm font-medium flex items-center">
