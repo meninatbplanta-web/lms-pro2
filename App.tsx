@@ -15,10 +15,10 @@ import {
   Eye, Lightbulb, Clock, Share2, ArrowRight,
   Headphones, Video, Network, FileText, Layers, HelpCircle,
   BarChart3, MonitorPlay, BookOpen, Sparkles, Users, Book, Award,
-  GraduationCap, PlayCircle
+  GraduationCap, PlayCircle, LogOut
 } from 'lucide-react';
 
-// 1. Home Page
+// 1. Home Page (Catalog) - Light Theme
 const Catalog: React.FC<{ 
   courses: Course[], 
   enrollments: Enrollment[], 
@@ -26,78 +26,18 @@ const Catalog: React.FC<{
   onCourseClick: (c: Course) => void 
 }> = ({ courses, enrollments, user, onCourseClick }) => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative bg-brand-dark text-white pt-20 pb-32 overflow-hidden border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-left">
-              <span className="badge-red mb-6">
-                Plataforma de Ensino
-              </span>
-              <h1 className="text-5xl lg:text-6xl font-display font-bold text-white leading-tight mb-6">
-                Aprenda com <br/>
-                <span className="text-brand-red">
-                  Excelência
-                </span>
-              </h1>
-              <p className="text-lg text-gray-400 mb-8 max-w-lg leading-relaxed">
-                Desenvolva suas habilidades com cursos práticos, projetos reais e uma metodologia focada no seu crescimento profissional.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <button onClick={() => document.getElementById('courses')?.scrollIntoView({behavior: 'smooth'})} className="btn-cta hover:text-white">
-                  Começar Agora
-                </button>
-                <button className="px-8 py-4 rounded-full font-bold text-white border border-gray-700 hover:bg-white/10 transition-all uppercase tracking-wide text-sm">
-                  Saiba Mais
-                </button>
-              </div>
-            </div>
-            
-            <div className="hidden lg:grid grid-cols-2 gap-6">
-                <div className="space-y-6 mt-12">
-                    <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-brand-red hover:-translate-y-2 transition-transform">
-                        <div className="bg-red-900/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                            <Users className="text-brand-red w-6 h-6" />
-                        </div>
-                        <h3 className="font-bold text-lg mb-1 text-white">Comunidade</h3>
-                        <p className="text-gray-400 text-sm">Aprenda em grupo</p>
-                    </div>
-                    <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-brand-red hover:-translate-y-2 transition-transform">
-                        <div className="bg-red-900/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                            <Award className="text-brand-red w-6 h-6" />
-                        </div>
-                        <h3 className="font-bold text-lg mb-1 text-white">Certificados</h3>
-                        <p className="text-gray-400 text-sm">Reconhecimento oficial</p>
-                    </div>
-                </div>
-                <div className="space-y-6">
-                    <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-brand-red hover:-translate-y-2 transition-transform">
-                        <div className="bg-red-900/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                            <Sparkles className="text-brand-red w-6 h-6" />
-                        </div>
-                        <h3 className="font-bold text-lg mb-1 text-white">Mentoria IA</h3>
-                        <p className="text-gray-400 text-sm">Suporte inteligente</p>
-                    </div>
-                    <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-brand-red hover:-translate-y-2 transition-transform">
-                        <div className="bg-red-900/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                            <Book className="text-brand-red w-6 h-6" />
-                        </div>
-                        <h3 className="font-bold text-lg mb-1 text-white">Didática</h3>
-                        <p className="text-gray-400 text-sm">Fácil compreensão</p>
-                    </div>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Courses Grid */}
-      <div id="courses" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div className="min-h-screen bg-brand-light">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-16">
-          <h2 className="section-title">Catálogo de Cursos</h2>
-          <div className="w-24 h-1.5 bg-brand-red rounded-full mx-auto mb-4"></div>
-          <p className="section-subtitle">Escolha o curso ideal para o seu momento</p>
+          <span className="inline-block py-1 px-3 rounded-full bg-red-50 text-brand-red border border-red-100 text-xs font-bold uppercase tracking-widest mb-4">
+            Formação Profissional
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-display font-bold text-brand-text mb-4">
+            Sua Jornada de <span className="text-brand-red">Conhecimento</span>
+          </h1>
+          <p className="text-lg text-brand-muted max-w-2xl mx-auto font-light">
+            Acesse seus cursos, acompanhe seu progresso e torne-se um especialista na análise corporal.
+          </p>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -114,19 +54,14 @@ const Catalog: React.FC<{
           })}
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-brand-darker text-white py-12 border-t border-gray-900">
+      
+      {/* Footer Darker */}
+      <footer className="bg-brand-darker text-white py-12 mt-20">
           <div className="max-w-7xl mx-auto px-4 text-center">
               <div className="flex justify-center mb-6">
                   <GraduationCap className="w-10 h-10 text-brand-red" />
               </div>
-              <p className="text-gray-500 mb-4 text-sm">© 2024 Priscilla Moreira. Todos os direitos reservados.</p>
-              <div className="flex justify-center space-x-6 text-xs font-bold uppercase tracking-wider text-gray-600">
-                  <a href="#" className="hover:text-white transition-colors">Termos</a>
-                  <a href="#" className="hover:text-white transition-colors">Privacidade</a>
-                  <a href="#" className="hover:text-white transition-colors">Suporte</a>
-              </div>
+              <p className="text-gray-500 mb-4 text-sm">© 2024 Terapeuta Analista. Todos os direitos reservados.</p>
           </div>
       </footer>
     </div>
@@ -173,45 +108,43 @@ const AdminDashboard: React.FC<{
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 min-h-screen bg-gray-50">
+    <div className="max-w-7xl mx-auto px-4 py-10 min-h-screen bg-brand-light">
       <div className="flex justify-between items-center mb-10">
         <div>
-            <h1 className="text-3xl font-display font-bold text-gray-900">Painel Administrativo</h1>
-            <p className="text-gray-500 mt-1">Gerencie seus cursos e conteúdos</p>
+            <h1 className="text-3xl font-display font-bold text-brand-text">Painel Administrativo</h1>
+            <p className="text-brand-muted mt-1">Gerencie cursos, liberações e alunos</p>
         </div>
         <button 
           onClick={() => setShowForm(!showForm)}
-          className="bg-brand-red text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-red-700 flex items-center transition-all hover:-translate-y-1 uppercase text-sm tracking-wide"
+          className="bg-brand-whatsapp text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-brand-whatsapp-hover flex items-center transition-all hover:-translate-y-1 uppercase text-sm tracking-wide"
         >
           <Plus className="w-5 h-5 mr-2" /> Novo Curso
         </button>
       </div>
 
       {showForm && (
-        <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-200 mb-10">
-          <h2 className="text-xl font-bold mb-6 flex items-center text-gray-800">
-            <div className="bg-red-50 p-2 rounded-lg mr-3">
-                <Wand2 className="w-5 h-5 text-brand-red" />
-            </div>
+        <div className="bg-white p-8 rounded-xl shadow-md border-l-4 border-brand-red mb-10">
+          <h2 className="text-xl font-bold mb-6 flex items-center text-brand-text">
+            <Wand2 className="w-5 h-5 mr-2 text-brand-red" />
             Gerador de Curso com IA
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Tópico do Curso</label>
+                <label className="block text-sm font-bold text-brand-muted mb-2">Tópico do Curso</label>
                 <input 
                 type="text" 
                 placeholder="ex: Marketing Digital, Python Avançado" 
-                className="border border-gray-300 p-4 rounded-xl w-full focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none bg-gray-50 text-gray-900"
+                className="border border-gray-300 p-4 rounded-lg w-full focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none bg-gray-50"
                 value={topic}
                 onChange={e => setTopic(e.target.value)}
                 />
             </div>
             <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Público Alvo (Opcional)</label>
+                <label className="block text-sm font-bold text-brand-muted mb-2">Público Alvo (Opcional)</label>
                 <input 
                 type="text" 
                 placeholder="ex: Iniciantes, Profissionais" 
-                className="border border-gray-300 p-4 rounded-xl w-full focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none bg-gray-50 text-gray-900"
+                className="border border-gray-300 p-4 rounded-lg w-full focus:ring-2 focus:ring-brand-red focus:border-transparent outline-none bg-gray-50"
                 value={audience}
                 onChange={e => setAudience(e.target.value)}
                 />
@@ -221,7 +154,7 @@ const AdminDashboard: React.FC<{
             <button 
               onClick={handleGenerate} 
               disabled={isGenerating || !topic}
-              className={`px-8 py-3 rounded-full text-white font-bold flex items-center shadow-md transition-all uppercase text-sm tracking-wide ${isGenerating ? 'bg-gray-400' : 'bg-brand-dark hover:bg-black hover:-translate-y-1'}`}
+              className={`px-8 py-3 rounded-full text-white font-bold flex items-center shadow-md transition-all uppercase text-sm tracking-wide ${isGenerating ? 'bg-gray-400' : 'bg-brand-red hover:bg-brand-red-hover hover:-translate-y-1'}`}
             >
               {isGenerating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Gerando...</> : 'Gerar Estrutura'}
             </button>
@@ -229,40 +162,46 @@ const AdminDashboard: React.FC<{
         </div>
       )}
 
-      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="p-6 border-b border-gray-100">
+            <h3 className="font-bold text-brand-text text-lg">Cursos Ativos & Agendamento</h3>
+        </div>
         <table className="min-w-full divide-y divide-gray-100">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-8 py-5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Curso</th>
-              <th className="px-8 py-5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Preço</th>
-              <th className="px-8 py-5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Aulas</th>
-              <th className="px-8 py-5 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Ações</th>
+              <th className="px-8 py-5 text-left text-xs font-bold text-brand-muted uppercase tracking-wider">Curso</th>
+              <th className="px-8 py-5 text-left text-xs font-bold text-brand-muted uppercase tracking-wider">Liberação (Drip)</th>
+              <th className="px-8 py-5 text-left text-xs font-bold text-brand-muted uppercase tracking-wider">Aulas</th>
+              <th className="px-8 py-5 text-right text-xs font-bold text-brand-muted uppercase tracking-wider">Ações</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-50">
+          <tbody className="bg-white divide-y divide-gray-100">
             {courses.map(course => (
-              <tr key={course.id} className="hover:bg-gray-50/50 transition-colors">
+              <tr key={course.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-8 py-6 whitespace-nowrap">
                   <div className="flex items-center">
-                    <div className="h-12 w-12 flex-shrink-0 rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                    <div className="h-12 w-12 flex-shrink-0 rounded-lg overflow-hidden shadow-sm border border-gray-200">
                       <img className="h-full w-full object-cover" src={course.thumbnail} alt="" />
                     </div>
                     <div className="ml-4">
-                      <div className="text-sm font-bold text-gray-900">{course.title}</div>
-                      <div className="text-xs text-gray-500">{course.category}</div>
+                      <div className="text-sm font-bold text-brand-text">{course.title}</div>
+                      <div className="text-xs text-brand-muted">{course.category}</div>
                     </div>
                   </div>
                 </td>
                 <td className="px-8 py-6 whitespace-nowrap">
-                  <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full ${course.price === 0 ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-gray-100 text-gray-800 border border-gray-200'}`}>
-                    {course.price === 0 ? 'Grátis' : `R$ ${course.price}`}
-                  </span>
+                  <div className="flex flex-col">
+                      <span className="text-xs font-bold text-brand-whatsapp bg-green-50 px-2 py-1 rounded inline-block w-fit border border-green-100 mb-1">
+                        Automático
+                      </span>
+                      <span className="text-[10px] text-gray-400">Baseado na data da aula</span>
+                  </div>
                 </td>
-                <td className="px-8 py-6 whitespace-nowrap text-sm text-gray-500 font-medium">
+                <td className="px-8 py-6 whitespace-nowrap text-sm text-brand-muted font-medium">
                   {course.modules.reduce((acc, m) => acc + m.lessons.length, 0)} aulas
                 </td>
                 <td className="px-8 py-6 whitespace-nowrap text-right text-sm font-medium">
-                  <button onClick={() => deleteCourse(course.id)} className="text-gray-400 hover:text-red-600 p-2 hover:bg-red-50 rounded-lg transition-colors">
+                  <button onClick={() => deleteCourse(course.id)} className="text-brand-muted hover:text-brand-red p-2 hover:bg-red-50 rounded-lg transition-colors">
                     <Trash2 className="w-5 h-5" />
                   </button>
                 </td>
@@ -275,41 +214,32 @@ const AdminDashboard: React.FC<{
   );
 };
 
-// 3. Course Player / Details
+// 3. Course Player / Details (Dashboard Layout)
 const CoursePlayer: React.FC<{
   course: Course;
   enrollment?: Enrollment;
   onEnroll: () => void;
   onCompleteLesson: (lessonId: string) => void;
-}> = ({ course, enrollment, onEnroll, onCompleteLesson }) => {
+  user: User | null;
+  onLogout: () => void;
+}> = ({ course, enrollment, onEnroll, onCompleteLesson, user, onLogout }) => {
   const navigate = useNavigate();
   const { lessonId } = useParams();
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState('curso');
   
   // Widget States
-  const [activeTab, setActiveTab] = useState('curso');
   const [missionDone, setMissionDone] = useState(false);
-  const [quizAnswers, setQuizAnswers] = useState<Record<number, number | null>>({});
-  const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [unlockedSticker, setUnlockedSticker] = useState(false);
-  const [reflection, setReflection] = useState("");
-  const [miniGameRevealed, setMiniGameRevealed] = useState<number | null>(null);
-  const [timeLeft, setTimeLeft] = useState<string>("");
   const [nextLesson, setNextLesson] = useState<Lesson | null>(null);
 
-  // Reset widget states when lesson changes
   useEffect(() => {
     setActiveTab('curso');
     setMissionDone(false);
-    setQuizAnswers({});
-    setQuizSubmitted(false);
     setUnlockedSticker(false);
-    setReflection("");
-    setMiniGameRevealed(null);
   }, [activeLesson?.id]);
 
-  // Determine active lesson and next lesson
   useEffect(() => {
     let foundLesson = null;
     let next = null;
@@ -324,7 +254,7 @@ const CoursePlayer: React.FC<{
         for (const l of mod.lessons) {
           if (foundActive) {
             next = l;
-            foundActive = false; // Found the immediate next one
+            foundActive = false;
             break;
           }
           if (l.id === lessonId) {
@@ -340,36 +270,6 @@ const CoursePlayer: React.FC<{
     setNextLesson(next);
   }, [lessonId, course]);
 
-  // Countdown Logic
-  useEffect(() => {
-    if (!nextLesson || !nextLesson.releaseDate) {
-      setTimeLeft("");
-      return;
-    }
-
-    const targetDate = new Date(nextLesson.releaseDate).getTime();
-
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-
-      if (distance < 0) {
-        setTimeLeft("Disponível Agora");
-        clearInterval(interval);
-        return;
-      }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [nextLesson]);
-
   const isLessonLocked = (lesson: Lesson) => {
     if (!enrollment) return true; 
     if (!lesson.releaseDate) return false; 
@@ -378,372 +278,294 @@ const CoursePlayer: React.FC<{
 
   const isLessonCompleted = (id: string) => enrollment?.completedLessonIds.includes(id);
 
-  // Calculate Quiz Score
-  const calculateQuizScore = () => {
-    if (!activeLesson?.richContent?.quiz) return 0;
-    let score = 0;
-    activeLesson.richContent.quiz.questions.forEach((q, idx) => {
-        if (quizAnswers[idx] === q.correctIndex) score++;
-    });
-    return score;
-  };
-
   const handleComplete = () => {
     if (activeLesson) {
         onCompleteLesson(activeLesson.id);
-        // Unlock sticker on completion if present
         if (activeLesson.richContent?.sticker) {
             setUnlockedSticker(true);
         }
+        // Auto advance logic could go here
     }
   };
 
-  const menuItems = [
-    { id: 'curso', label: 'Curso', icon: BookOpen },
-    { id: 'audio', label: 'Resumo Áudio', icon: Headphones },
-    { id: 'video', label: 'Resumo Vídeo', icon: Video },
-    { id: 'mindmap', label: 'Mapa Mental', icon: Network },
-    { id: 'materials', label: 'Materiais', icon: FileText },
-    { id: 'flashcards', label: 'Cartões', icon: Layers },
-    { id: 'quiz', label: 'Teste', icon: HelpCircle },
-    { id: 'infographic', label: 'Infográfico', icon: BarChart3 },
-    { id: 'slides', label: 'Slides', icon: MonitorPlay },
-  ];
-
   if (!enrollment) {
-    // Landing page with new design
+    // Landing Page Style for Unenrolled
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-            <button onClick={() => navigate('/')} className="mb-8 text-gray-500 hover:text-brand-red flex items-center font-medium transition-colors">
-            <ChevronLeft className="w-5 h-5 mr-1" /> Voltar para Catálogo
-            </button>
-            <div className="grid lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2">
-                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-200 mb-8 border-l-4 border-brand-red">
-                    <span className="badge-red mb-4">{course.category}</span>
-                    <h1 className="text-4xl font-display font-bold text-gray-900 mb-4 leading-tight">{course.title}</h1>
-                    <p className="text-lg text-gray-600 leading-relaxed">{course.description}</p>
-                </div>
-                
-                <h2 className="text-2xl font-display font-bold mb-6 text-gray-900">Conteúdo do Curso</h2>
-                <div className="space-y-4">
-                {course.modules.map((mod, idx) => (
-                    <div key={mod.id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                    <div className="flex items-center mb-4">
-                        <div className="w-8 h-8 rounded-lg bg-brand-red text-white flex items-center justify-center font-display font-bold text-sm mr-3">
-                            {idx + 1}
-                        </div>
-                        <h3 className="font-bold text-lg text-gray-800">{mod.title}</h3>
-                    </div>
-                    <div className="space-y-3 pl-11">
-                        {mod.lessons.map(les => (
-                        <div key={les.id} className="flex items-center text-gray-600 text-sm py-2 border-b border-gray-50 last:border-0">
-                            <div className="bg-gray-100 p-1 rounded-full mr-3">
-                                <Play className="w-3 h-3 text-gray-500" />
-                            </div>
-                            <span className="font-medium text-gray-800">{les.title}</span>
-                            <span className="ml-auto text-xs bg-gray-100 px-2 py-1 rounded text-gray-500 border border-gray-200 font-semibold">
-                            {les.duration}
-                            </span>
-                        </div>
-                        ))}
-                    </div>
-                    </div>
-                ))}
-                </div>
-            </div>
-            <div className="lg:col-span-1">
-                <div className="bg-white shadow-xl rounded-3xl p-8 sticky top-24 border border-gray-200">
-                <div className="aspect-video rounded-2xl overflow-hidden mb-6 shadow-inner bg-gray-100">
-                    <img src={course.thumbnail} alt="Cover" className="w-full h-full object-cover" />
-                </div>
-                <div className="text-4xl font-display font-bold text-gray-900 mb-6 text-center">
-                    {course.price === 0 ? <span className="text-brand-green">Gratuito</span> : `R$ ${course.price.toFixed(2)}`}
-                </div>
-                <button 
-                    onClick={onEnroll}
-                    className="btn-cta mb-6 w-full hover:text-white"
-                >
-                    Matricular-se Agora
+      <div className="min-h-screen bg-brand-light">
+        <div className="bg-brand-dark text-white py-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <button onClick={() => navigate('/')} className="mb-8 text-gray-400 hover:text-white flex items-center font-medium transition-colors">
+                    <ChevronLeft className="w-5 h-5 mr-1" /> Voltar para Catálogo
                 </button>
-                <div className="space-y-3 text-sm text-gray-500">
-                    <div className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-brand-green" /> Acesso vitalício</div>
-                    <div className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-brand-green" /> Certificado de conclusão</div>
-                    <div className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-brand-green" /> Suporte exclusivo</div>
+                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span className="inline-block px-3 py-1 rounded-full bg-brand-red text-white text-xs font-bold mb-4 uppercase tracking-wide">{course.category}</span>
+                        <h1 className="text-4xl lg:text-5xl font-display font-bold text-white mb-6 leading-tight">{course.title}</h1>
+                        <p className="text-lg text-gray-300 leading-relaxed mb-8">{course.description}</p>
+                        <div className="flex items-center space-x-6 text-sm text-gray-400 mb-8">
+                            <div className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-brand-whatsapp" /> Acesso vitalício</div>
+                            <div className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-brand-whatsapp" /> Certificado incluso</div>
+                        </div>
+                        <button 
+                            onClick={onEnroll}
+                            className="bg-brand-whatsapp text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:bg-brand-whatsapp-hover hover:-translate-y-1 transition-all uppercase tracking-wide w-full sm:w-auto text-center"
+                        >
+                            Matricular-se Agora
+                        </button>
+                    </div>
+                    <div className="bg-white rounded-2xl p-2 shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <img src={course.thumbnail} alt="Cover" className="w-full rounded-xl shadow-inner" />
+                    </div>
                 </div>
-                </div>
-            </div>
             </div>
         </div>
       </div>
     );
   }
 
-  // Player
+  // DASHBOARD LAYOUT: Dark Sidebar (Left) + Light Content (Right)
   return (
-    <div className="flex h-[calc(100vh-80px)] bg-[#f9fafb] overflow-hidden">
-      {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'w-80' : 'w-0'} bg-white border-r border-gray-200 flex-shrink-0 transition-all duration-300 overflow-y-auto relative shadow-sm z-20`}>
-        <div className="p-6 border-b border-gray-100 sticky top-0 z-10 bg-white flex justify-between items-center">
-          <h2 className="font-display font-bold text-gray-900 text-lg">Conteúdo</h2>
-          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-gray-400 hover:text-brand-red"><X className="w-5 h-5" /></button>
-        </div>
-        <div className="p-4 space-y-6">
-           {course.modules.map((mod, mIdx) => (
-             <div key={mod.id}>
-                <div className="flex items-center mb-3 px-2">
-                    <span className="bg-red-50 text-brand-red text-xs font-bold w-6 h-6 rounded-lg flex items-center justify-center mr-2 font-display">
-                        {mIdx + 1}
-                    </span>
-                    <h3 className="text-xs font-bold text-gray-600 uppercase tracking-wider">{mod.title}</h3>
+    <div className="flex h-screen bg-brand-light overflow-hidden">
+      {/* SIDEBAR */}
+      <div className={`${sidebarOpen ? 'w-80' : 'w-0'} bg-brand-dark flex-shrink-0 transition-all duration-300 flex flex-col border-r border-gray-800 relative z-20`}>
+        <div className="p-6 border-b border-gray-800 flex items-center justify-between bg-brand-dark">
+            <div className="flex items-center space-x-3">
+                <div className="bg-brand-red p-1.5 rounded-md">
+                    <GraduationCap className="w-5 h-5 text-white" />
                 </div>
-               
-               <div className="space-y-2">
-                 {mod.lessons.map((les) => {
-                   const active = activeLesson?.id === les.id;
-                   const locked = isLessonLocked(les);
-                   const completed = isLessonCompleted(les.id);
+                <span className="text-white font-bold font-display tracking-wide">TERAPEUTA</span>
+            </div>
+            <button onClick={() => setSidebarOpen(false)} className="md:hidden text-gray-400"><X className="w-5 h-5" /></button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar">
+           <div className="mb-4">
+               <div className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4 px-2">Módulos</div>
+               {course.modules.map((mod, mIdx) => (
+                 <div key={mod.id} className="mb-6">
+                    <div className="flex items-center mb-3 px-2">
+                        <div className="w-6 h-6 rounded bg-gray-800 text-gray-400 flex items-center justify-center text-xs font-bold mr-3 border border-gray-700">
+                            {mIdx + 1}
+                        </div>
+                        <h3 className="text-sm font-bold text-white uppercase tracking-wide line-clamp-1">{mod.title}</h3>
+                    </div>
                    
-                   return (
-                     <button
-                       key={les.id}
-                       disabled={locked}
-                       onClick={() => navigate(`/learn/${course.id}/${les.id}`)}
-                       className={`w-full flex items-start p-3 rounded-xl text-left text-sm transition-all duration-200 group border border-transparent ${
-                         active 
-                            ? 'bg-red-50 text-brand-red shadow-sm border-l-4 border-l-brand-red font-bold' 
-                            : 'hover:bg-gray-50 text-gray-700 hover:border-l-4 hover:border-l-gray-300'
-                       } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
-                     >
-                       <div className="mt-0.5 mr-3 flex-shrink-0">
-                         {completed ? (
-                           <CheckCircle className="w-4 h-4 text-brand-green fill-green-50" />
-                         ) : locked ? (
-                           <Lock className="w-4 h-4 text-gray-400" />
-                         ) : (
-                           <Play className={`w-4 h-4 ${active ? 'text-brand-red' : 'text-gray-400 group-hover:text-brand-red'}`} />
-                         )}
-                       </div>
-                       <div className="flex-1">
-                         <div className="line-clamp-2">{les.title}</div>
-                         <div className="text-xs text-gray-400 mt-1 flex items-center font-normal">
-                           {les.duration}
-                           {les.releaseDate && locked && (
-                             <span className="ml-2 flex items-center text-brand-red bg-red-50 px-1.5 py-0.5 rounded font-bold">
-                               <Calendar className="w-3 h-3 mr-1" /> 
-                               {new Date(les.releaseDate).toLocaleDateString()}
-                             </span>
-                           )}
-                         </div>
-                       </div>
-                     </button>
-                   );
-                 })}
-               </div>
-             </div>
-           ))}
+                   <div className="space-y-1 pl-2">
+                     {mod.lessons.map((les) => {
+                       const active = activeLesson?.id === les.id;
+                       const locked = isLessonLocked(les);
+                       const completed = isLessonCompleted(les.id);
+                       
+                       return (
+                         <button
+                           key={les.id}
+                           disabled={locked}
+                           onClick={() => navigate(`/learn/${course.id}/${les.id}`)}
+                           className={`w-full flex items-center p-3 rounded-lg text-left text-xs font-medium transition-all duration-200 group ${
+                             active 
+                                ? 'bg-brand-red text-white shadow-md' 
+                                : 'hover:bg-gray-800 text-gray-400 hover:text-white'
+                           } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
+                         >
+                           <div className="mr-3 flex-shrink-0">
+                             {completed ? (
+                               <CheckCircle className={`w-4 h-4 ${active ? 'text-white' : 'text-brand-whatsapp'}`} />
+                             ) : locked ? (
+                               <Lock className="w-4 h-4" />
+                             ) : (
+                               <PlayCircle className={`w-4 h-4 ${active ? 'text-white' : 'text-gray-600 group-hover:text-white'}`} />
+                             )}
+                           </div>
+                           <span className="line-clamp-2">{les.title}</span>
+                         </button>
+                       );
+                     })}
+                   </div>
+                 </div>
+               ))}
+           </div>
+        </div>
+
+        {/* User Footer in Sidebar */}
+        <div className="p-4 border-t border-gray-800 bg-[#0a0a0a]">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-white font-bold text-xs">
+                        {user?.name.charAt(0)}
+                    </div>
+                    <div className="text-xs">
+                        <p className="text-white font-bold truncate w-24">{user?.name}</p>
+                        <p className="text-gray-500">Aluno</p>
+                    </div>
+                </div>
+                <button onClick={onLogout} className="text-gray-500 hover:text-brand-red transition-colors">
+                    <LogOut className="w-4 h-4" />
+                </button>
+            </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto relative scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-         <button 
-           onClick={() => setSidebarOpen(!sidebarOpen)}
-           className={`absolute top-6 left-6 z-20 bg-white p-2.5 rounded-full shadow-lg text-gray-600 hover:text-brand-red transition-colors border border-gray-100 ${sidebarOpen ? 'hidden' : 'block'}`}
-         >
-           <Menu className="w-5 h-5" />
-         </button>
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#f9fafb]">
+         {/* Top Navigation within Main Area */}
+         <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm flex-shrink-0">
+            <div className="flex items-center">
+                <button 
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className={`mr-4 text-gray-500 hover:text-brand-text transition-colors ${sidebarOpen ? 'hidden md:block' : 'block'}`}
+                >
+                <Menu className="w-6 h-6" />
+                </button>
+                <h2 className="text-sm font-bold text-brand-text uppercase tracking-wide hidden sm:block">
+                    {course.title}
+                </h2>
+            </div>
+            <div className="flex items-center space-x-4">
+                <button onClick={() => navigate('/')} className="text-xs font-bold text-gray-500 hover:text-brand-text uppercase tracking-wide">
+                    Voltar ao Início
+                </button>
+            </div>
+         </div>
 
-         {activeLesson ? (
-           <div className="max-w-5xl mx-auto p-6 lg:p-10 space-y-8">
-             {/* Lesson Header */}
-             <div className="mb-8">
-               <div className="flex items-center space-x-2 mb-4">
-                    <span className="bg-red-50 text-brand-red text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide">Aula</span>
-                    <span className="text-gray-400 text-sm">•</span>
-                    <span className="text-gray-500 text-sm font-medium">Módulo {course.modules.find(m => m.lessons.some(l => l.id === activeLesson.id))?.title}</span>
-               </div>
-               <h1 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-4 leading-tight">{activeLesson.title}</h1>
-               
-               <div className="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
-                  <div className="flex items-center space-x-4 text-sm">
-                      {enrollment.completedAt && (
-                        <div className="bg-green-50 text-green-700 px-3 py-1 rounded-full flex items-center font-bold border border-green-100">
-                          <Trophy className="w-4 h-4 mr-2" /> Aula Concluída
+         <div className="flex-1 overflow-y-auto p-6 lg:p-10 custom-scrollbar">
+             {activeLesson ? (
+               <div className="max-w-5xl mx-auto">
+                 {/* Video Section */}
+                 <div className="bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video mb-8 relative group">
+                    {activeLesson.videoUrl ? (
+                        <iframe 
+                        src={activeLesson.videoUrl} 
+                        title={activeLesson.title}
+                        className="w-full h-full"
+                        allowFullScreen
+                        ></iframe>
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-white">
+                            <p>Vídeo indisponível</p>
                         </div>
-                      )}
-                      <div className="flex items-center text-gray-500 font-medium">
-                          <Clock className="w-4 h-4 mr-1.5" />
-                          <span>{activeLesson.duration} de conteúdo</span>
-                      </div>
-                  </div>
-                  {/* Progress Bar for Lesson */}
-                  <div className="hidden sm:flex items-center space-x-3">
-                      <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Progresso</span>
-                      <div className="w-32 h-2 bg-gray-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-brand-red w-1/4 rounded-full"></div>
-                      </div>
-                  </div>
-               </div>
-             </div>
+                    )}
+                 </div>
 
-             {/* Video Player */}
-             {activeLesson.videoUrl && (
-               <div className="aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl shadow-gray-300 border-4 border-white relative group">
-                 <iframe 
-                   src={activeLesson.videoUrl} 
-                   title={activeLesson.title}
-                   className="w-full h-full"
-                   allowFullScreen
-                 ></iframe>
-               </div>
-             )}
+                 {/* Lesson Title & Actions */}
+                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-10">
+                    <div>
+                        <h1 className="text-2xl lg:text-3xl font-display font-bold text-brand-text mb-2">
+                            {activeLesson.title}
+                        </h1>
+                        <p className="text-brand-muted text-sm flex items-center">
+                            <Clock className="w-4 h-4 mr-1" /> {activeLesson.duration} de conteúdo
+                        </p>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3">
+                        {!isLessonCompleted(activeLesson.id) ? (
+                            <button 
+                            onClick={handleComplete}
+                            className="bg-brand-whatsapp hover:bg-brand-whatsapp-hover text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-green-200 flex items-center transition-all transform hover:-translate-y-1 text-sm uppercase tracking-wide"
+                            >
+                            <CheckCircle className="w-5 h-5 mr-2" />
+                            Concluir Aula
+                            </button>
+                        ) : (
+                            <button disabled className="bg-green-50 text-green-600 border border-green-200 px-8 py-3 rounded-full font-bold flex items-center cursor-default text-sm uppercase tracking-wide">
+                            <CheckCircle className="w-5 h-5 mr-2" />
+                            Concluída
+                            </button>
+                        )}
+                        
+                        {nextLesson && (
+                            <button 
+                                onClick={() => navigate(`/learn/${course.id}/${nextLesson.id}`)}
+                                className="bg-white border border-gray-200 text-brand-text hover:bg-gray-50 px-6 py-3 rounded-full font-bold flex items-center transition-all text-sm uppercase tracking-wide shadow-sm"
+                            >
+                                Próxima <ArrowRight className="w-4 h-4 ml-2" />
+                            </button>
+                        )}
+                    </div>
+                 </div>
 
-             {/* Resources Menu (Cards) */}
-             <div className="flex overflow-x-auto gap-4 py-6 pb-8 px-2 scrollbar-hide snap-x">
-                {menuItems.map((item) => (
-                    <button
-                        key={item.id}
-                        onClick={() => setActiveTab(item.id)}
-                        className={`snap-center flex-shrink-0 w-36 h-36 rounded-3xl p-4 cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-3 group relative border-2 ${
-                            activeTab === item.id 
-                            ? `bg-brand-red border-brand-red shadow-lg shadow-red-200 scale-105 z-10` 
-                            : `bg-white border-gray-100 hover:border-red-200 hover:shadow-md`
-                        }`}
-                    >
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors duration-300 ${
-                            activeTab === item.id 
-                            ? `bg-white/20 text-white` 
-                            : 'bg-gray-50 text-gray-600 group-hover:text-brand-red group-hover:bg-red-50'
-                        }`}>
-                           <item.icon className="w-6 h-6" />
+                 {/* Tabs / Content */}
+                 <div className="grid lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* Description Card */}
+                        <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                            <h3 className="text-lg font-bold text-brand-text mb-4 border-l-4 border-brand-red pl-3">Sobre esta aula</h3>
+                            <div className="prose prose-red prose-sm max-w-none text-gray-600">
+                                <ReactMarkdown>{activeLesson.content}</ReactMarkdown>
+                            </div>
                         </div>
-                        <span className={`font-display font-bold text-xs text-center leading-tight uppercase tracking-wide ${
-                            activeTab === item.id ? 'text-white' : 'text-gray-600 group-hover:text-brand-red'
-                        }`}>
-                            {item.label}
-                        </span>
-                    </button>
-                ))}
-             </div>
 
-             {/* Content Area */}
-             <div className="bg-white rounded-3xl shadow-sm border border-gray-200 p-8 min-h-[400px] animate-in fade-in slide-in-from-bottom-4 duration-500">
-                 {activeTab === 'curso' ? (
-                     <div className="space-y-10">
-                         {/* Mission Card */}
-                         {activeLesson.richContent?.mission && (
-                            <div className="card-accent bg-gray-50">
-                                <div className="relative z-10">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="bg-red-100 w-12 h-12 rounded-2xl flex items-center justify-center">
-                                            <Target className="w-6 h-6 text-brand-red" />
-                                        </div>
-                                        <span className="bg-white px-3 py-1 rounded-full text-xs font-bold text-brand-red border border-red-100 uppercase tracking-wide shadow-sm">
-                                            PARA HOJE
-                                        </span>
+                        {/* Mission */}
+                        {activeLesson.richContent?.mission && (
+                            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                                <div className="flex items-start space-x-4">
+                                    <div className="bg-brand-red/10 p-3 rounded-lg">
+                                        <Target className="w-6 h-6 text-brand-red" />
                                     </div>
-                                    <h3 className="text-2xl font-display font-bold text-gray-900 mb-2">
-                                        {activeLesson.richContent.mission.title}
-                                    </h3>
-                                    <p className="text-gray-600 mb-6 leading-relaxed">{activeLesson.richContent.mission.description}</p>
-                                    <button 
-                                        onClick={() => setMissionDone(true)}
-                                        disabled={missionDone}
-                                        className={`px-6 py-3 rounded-full font-bold text-sm transition-all shadow-sm uppercase tracking-wide ${missionDone ? 'bg-green-100 text-green-700 cursor-default' : 'bg-brand-red text-white hover:bg-red-700 hover:shadow-red-500/30 hover:-translate-y-0.5'}`}
-                                    >
-                                        {missionDone ? "Missão Registrada ✓" : activeLesson.richContent.mission.actionLabel}
-                                    </button>
+                                    <div>
+                                        <h4 className="font-bold text-brand-text text-lg mb-2">{activeLesson.richContent.mission.title}</h4>
+                                        <p className="text-sm text-gray-600 mb-4">{activeLesson.richContent.mission.description}</p>
+                                        <button 
+                                            onClick={() => setMissionDone(true)}
+                                            disabled={missionDone}
+                                            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wide ${missionDone ? 'bg-green-100 text-green-700' : 'bg-brand-text text-white hover:bg-gray-800'}`}
+                                        >
+                                            {missionDone ? "Missão Cumprida" : activeLesson.richContent.mission.actionLabel}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                         )}
+                        )}
+                    </div>
 
-                         {/* Sticker Unlock */}
-                         {(unlockedSticker || isLessonCompleted(activeLesson.id)) && activeLesson.richContent?.sticker && (
-                             <div className="bg-brand-red rounded-3xl p-1 shadow-xl shadow-red-200">
-                                 <div className="bg-white/10 backdrop-blur-md rounded-[20px] p-6 flex items-center justify-between text-white">
-                                     <div>
-                                         <div className="flex items-center space-x-2 mb-1">
-                                            <Sparkles className="w-4 h-4 text-yellow-300" />
-                                            <h3 className="font-bold text-red-100 text-sm uppercase tracking-wider">Sticker Desbloqueado</h3>
-                                         </div>
-                                         <p className="font-display font-bold text-2xl mb-4">“{activeLesson.richContent.sticker.title}”</p>
-                                         <div className="flex space-x-3">
-                                             <button className="bg-white text-brand-red px-4 py-2 rounded-full text-xs font-bold hover:bg-gray-100 transition-colors flex items-center">
-                                                 <Download className="w-3 h-3 mr-2" /> Baixar
-                                             </button>
-                                             <button className="bg-black/20 text-white px-4 py-2 rounded-full text-xs font-bold hover:bg-black/30 transition-colors flex items-center">
-                                                 <Share2 className="w-3 h-3 mr-2" /> Compartilhar
-                                             </button>
-                                         </div>
-                                     </div>
-                                     <img src={activeLesson.richContent.sticker.url} alt="Sticker" className="w-24 h-24 object-contain drop-shadow-2xl animate-bounce" />
-                                 </div>
-                             </div>
-                         )}
+                    <div className="lg:col-span-1 space-y-6">
+                        {/* Materials */}
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                            <h3 className="text-sm font-bold text-brand-text mb-4 uppercase tracking-wide text-gray-400">Materiais Complementares</h3>
+                            <div className="space-y-3">
+                                {activeLesson.richContent?.materials ? (
+                                    activeLesson.richContent.materials.map((mat, idx) => (
+                                        <a key={idx} href={mat.url} className="flex items-center p-3 rounded-lg bg-gray-50 hover:bg-red-50 hover:text-brand-red transition-colors group">
+                                            <FileText className="w-5 h-5 text-gray-400 group-hover:text-brand-red mr-3" />
+                                            <span className="text-sm font-medium text-gray-700 group-hover:text-brand-red">{mat.title}</span>
+                                            <Download className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-brand-red" />
+                                        </a>
+                                    ))
+                                ) : (
+                                    <p className="text-sm text-gray-400 italic">Nenhum material extra.</p>
+                                )}
+                            </div>
+                        </div>
 
-                         {/* Description Text */}
-                         <div className="prose prose-lg prose-headings:font-display prose-headings:font-bold prose-a:text-brand-red prose-strong:text-gray-900 text-gray-600 max-w-none">
-                           <ReactMarkdown>{activeLesson.content}</ReactMarkdown>
-                         </div>
-
-                         {/* Reflection */}
-                         <div className="bg-gray-50 p-8 rounded-3xl border border-gray-200">
-                             <h3 className="text-lg font-display font-bold text-gray-900 mb-3 flex items-center">
-                                <div className="bg-white p-2 rounded-lg mr-3 shadow-sm border border-gray-100">
-                                    <MessageSquare className="w-5 h-5 text-brand-red" /> 
+                        {/* Sticker Unlock */}
+                        {(unlockedSticker || isLessonCompleted(activeLesson.id)) && activeLesson.richContent?.sticker && (
+                            <div className="bg-gradient-to-br from-brand-red to-red-700 rounded-xl p-6 text-white text-center shadow-lg">
+                                <div className="mb-4 flex justify-center">
+                                    <div className="bg-white/20 p-3 rounded-full">
+                                        <Sparkles className="w-6 h-6 text-yellow-300" />
+                                    </div>
                                 </div>
-                                 Reflexão Guiada
-                             </h3>
-                             <p className="text-gray-500 text-sm mb-4 ml-12">“O que o meu corpo está tentando me contar hoje?”</p>
-                             <textarea 
-                                value={reflection}
-                                onChange={(e) => setReflection(e.target.value)}
-                                placeholder="Escreva aqui sua reflexão..."
-                                className="w-full bg-white p-4 rounded-2xl border border-gray-200 focus:border-brand-red focus:ring-4 focus:ring-red-50 outline-none h-32 text-gray-700 resize-none transition-all"
-                             />
-                         </div>
-
-                         {/* Completion Action */}
-                         <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-gray-100">
-                           <div className="flex flex-col space-y-2 w-full md:w-auto">
-                                {/* Previous/Next buttons could go here */}
-                           </div>
-
-                           {!isLessonCompleted(activeLesson.id) ? (
-                             <button 
-                               onClick={handleComplete}
-                               className="btn-cta w-full md:w-auto hover:text-white shadow-lg shadow-green-200"
-                             >
-                               <CheckCircle className="w-5 h-5 mr-2" />
-                               Concluir Aula
-                             </button>
-                           ) : (
-                             <button disabled className="w-full md:w-auto bg-gray-100 text-gray-400 border border-gray-200 px-10 py-4 rounded-full font-bold flex items-center justify-center cursor-default uppercase tracking-wide text-sm">
-                               <CheckCircle className="w-5 h-5 mr-2" />
-                               Aula Concluída
-                             </button>
-                           )}
-                         </div>
-                     </div>
-                 ) : (
-                     <div className="flex flex-col items-center justify-center min-h-[400px] text-center py-20">
-                         <div className="bg-gray-100 p-4 rounded-full mb-4">
-                            <Lock className="w-8 h-8 text-gray-400" />
-                         </div>
-                         <h3 className="text-xl font-bold text-gray-900 mb-2">Conteúdo em Breve</h3>
-                         <p className="text-gray-500 max-w-md mx-auto">Estamos preparando este material com muito carinho. Fique atento às novidades!</p>
-                     </div>
-                 )}
-             </div>
-           </div>
-         ) : (
-           <div className="flex items-center justify-center h-full text-gray-400 flex-col">
-             <PlayCircle className="w-16 h-16 text-gray-200 mb-4" />
-             <p className="font-medium">Selecione uma aula para começar</p>
-           </div>
-         )}
+                                <h3 className="font-bold text-lg mb-1">Sticker Desbloqueado!</h3>
+                                <p className="text-xs text-white/80 mb-4 uppercase tracking-wider">Colecione sua conquista</p>
+                                <img src={activeLesson.richContent.sticker.url} alt="Sticker" className="w-20 h-20 object-contain mx-auto drop-shadow-md mb-4" />
+                                <button className="w-full bg-white text-brand-red font-bold py-2 rounded-full text-xs uppercase tracking-wide hover:bg-gray-100 transition-colors">
+                                    Baixar Sticker
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                 </div>
+               </div>
+             ) : (
+               <div className="flex flex-col items-center justify-center h-full text-center">
+                 <div className="bg-gray-100 p-6 rounded-full mb-6">
+                    <PlayCircle className="w-12 h-12 text-gray-400" />
+                 </div>
+                 <h3 className="text-xl font-bold text-brand-text mb-2">Pronto para começar?</h3>
+                 <p className="text-gray-500 max-w-md">Selecione uma aula no menu lateral para iniciar seus estudos.</p>
+               </div>
+             )}
+         </div>
       </div>
     </div>
   );
@@ -839,12 +661,12 @@ const App = () => {
         onLogout={handleLogout} 
         onLoginClick={() => setAuthModalOpen(true)} 
       />
-      <main className="min-h-[calc(100vh-80px)]">
+      <main className="min-h-[calc(100vh-80px)] bg-brand-light">
         <Routes>
           <Route path="/" element={<CatalogWrapper courses={courses} enrollments={enrollments} user={user} onCourseClick={handleCourseClick} />} />
-          <Route path="/course/:id" element={<CourseDetailsWrapper courses={courses} enrollments={enrollments} user={user} onEnroll={enrollInCourse} />} />
-          <Route path="/learn/:courseId/:lessonId" element={<PlayerWrapper courses={courses} enrollments={enrollments} user={user} onEnroll={enrollInCourse} onCompleteLesson={completeLesson} />} />
-          <Route path="/learn/:courseId" element={<PlayerWrapper courses={courses} enrollments={enrollments} user={user} onEnroll={enrollInCourse} onCompleteLesson={completeLesson} />} />
+          <Route path="/course/:id" element={<CourseDetailsWrapper courses={courses} enrollments={enrollments} user={user} onEnroll={enrollInCourse} onLogout={handleLogout} />} />
+          <Route path="/learn/:courseId/:lessonId" element={<PlayerWrapper courses={courses} enrollments={enrollments} user={user} onEnroll={enrollInCourse} onCompleteLesson={completeLesson} onLogout={handleLogout} />} />
+          <Route path="/learn/:courseId" element={<PlayerWrapper courses={courses} enrollments={enrollments} user={user} onEnroll={enrollInCourse} onCompleteLesson={completeLesson} onLogout={handleLogout} />} />
           <Route path="/certificate/:courseId" element={<CertificateWrapper courses={courses} enrollments={enrollments} user={user} />} />
           <Route path="/admin" element={user?.role === UserRole.ADMIN ? (<AdminDashboard courses={courses} addCourse={addNewCourse} deleteCourse={deleteCourse} />) : (<Navigate to="/" replace />)} />
           <Route path="/my-learning" element={<MyLearningWrapper courses={courses} enrollments={enrollments} user={user} onCourseClick={handleCourseClick} />} />
@@ -860,15 +682,15 @@ const CatalogWrapper = ({ courses, enrollments, user, onCourseClick }: any) => {
   const navigate = useNavigate();
   return <Catalog courses={courses} enrollments={enrollments} user={user} onCourseClick={(c) => onCourseClick(c, navigate)} />;
 };
-const CourseDetailsWrapper = ({ courses, enrollments, user, onEnroll }: any) => {
+const CourseDetailsWrapper = ({ courses, enrollments, user, onEnroll, onLogout }: any) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const course = courses.find((c: Course) => c.id === id);
   const enrollment = user ? enrollments.find((e: Enrollment) => e.courseId === id && e.userId === user.id) : enrollments.find((e: Enrollment) => e.courseId === id && e.userId === 'guest');
   if (!course) return <div>Curso não encontrado</div>;
-  return <CoursePlayer course={course} enrollment={enrollment} onEnroll={() => onEnroll(course, navigate)} onCompleteLesson={() => {}} />;
+  return <CoursePlayer course={course} enrollment={enrollment} onEnroll={() => onEnroll(course, navigate)} onCompleteLesson={() => {}} user={user} onLogout={onLogout} />;
 };
-const PlayerWrapper = ({ courses, enrollments, user, onEnroll, onCompleteLesson }: any) => {
+const PlayerWrapper = ({ courses, enrollments, user, onEnroll, onCompleteLesson, onLogout }: any) => {
   const { courseId, lessonId } = useParams();
   const navigate = useNavigate();
   const course = courses.find((c: Course) => c.id === courseId);
@@ -877,7 +699,7 @@ const PlayerWrapper = ({ courses, enrollments, user, onEnroll, onCompleteLesson 
   const userId = user ? user.id : 'guest';
   const enrollment = enrollments.find((e: Enrollment) => e.courseId === courseId && e.userId === userId);
   
-  return <CoursePlayer course={course} enrollment={enrollment} onEnroll={() => onEnroll(course, navigate)} onCompleteLesson={(lid) => onCompleteLesson(course.id, lid)} />;
+  return <CoursePlayer course={course} enrollment={enrollment} onEnroll={() => onEnroll(course, navigate)} onCompleteLesson={(lid) => onCompleteLesson(course.id, lid)} user={user} onLogout={onLogout} />;
 };
 const CertificateWrapper = ({ courses, enrollments, user }: any) => {
   const { courseId } = useParams();
@@ -886,7 +708,7 @@ const CertificateWrapper = ({ courses, enrollments, user }: any) => {
   const userId = user ? user.id : 'guest';
   const enrollment = enrollments.find((e: Enrollment) => e.courseId === courseId && e.userId === userId);
   if (!course || !enrollment || !enrollment.completedAt) {
-    return <div className="p-10 text-center">Certificado indisponível. Complete o curso primeiro.</div>;
+    return <div className="p-10 text-center text-gray-600 bg-brand-light h-screen">Certificado indisponível. Complete o curso primeiro.</div>;
   }
   const certUser = user || { id: 'guest', name: 'Visitante', email: '', role: UserRole.STUDENT };
   return <Certificate user={certUser} course={course} date={enrollment.completedAt} onBack={() => navigate('/')} />;
@@ -897,10 +719,10 @@ const MyLearningWrapper = ({ courses, enrollments, user, onCourseClick }: any) =
     const myEnrollments = enrollments.filter((e: Enrollment) => e.userId === user.id);
     const myCourses = courses.filter((c: Course) => myEnrollments.some((e: Enrollment) => e.courseId === c.id));
     return (
-        <div className="max-w-7xl mx-auto px-4 py-12">
-            <h1 className="text-3xl font-display font-bold text-gray-900 mb-8">Meus Cursos</h1>
+        <div className="max-w-7xl mx-auto px-4 py-12 min-h-screen bg-brand-light">
+            <h1 className="text-3xl font-display font-bold text-brand-text mb-8">Meus Cursos</h1>
             {myCourses.length === 0 ? (
-                <p className="text-gray-500">Você ainda não se matriculou em nenhum curso.</p>
+                <p className="text-brand-muted">Você ainda não se matriculou em nenhum curso.</p>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {myCourses.map((course: Course) => {
