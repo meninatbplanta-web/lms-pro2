@@ -20,17 +20,19 @@ export default {
         display: ["Poppins", "sans-serif"],
       },
       colors: {
-        brand: {
-          dark: "#0f0f0f",
-          darker: "#000000",
-          light: "#f9fafb",
-          white: "#ffffff",
-          red: "#ef4444",
-          "red-hover": "#b91c1c",
-          whatsapp: "#25D366",
-          "whatsapp-hover": "#128C7E",
-          text: "#111827",
-          muted: "#4b5563",
+        premium: {
+          bg: '#121212',        // Main body background
+          sidebar: '#0f0f0f',   // Sidebar background
+          card: '#1e1e1e',      // Card background
+          hover: '#2a2a2a',     // Hover state for list items
+          border: '#333333',    // Subtle borders
+          red: '#ef4444',       // Brand Accent
+          'red-dark': '#b91c1c',
+          green: '#25D366',     // Success/Action
+          'green-dark': '#128C7E',
+          text: '#f3f4f6',      // Primary Text
+          muted: '#9ca3af',     // Secondary Text
+          gold: '#D4AF37',      // Certificate/Achievement
         },
       },
       borderRadius: {

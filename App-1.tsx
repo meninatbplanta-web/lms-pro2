@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Header } from './components/Header';
@@ -20,7 +19,7 @@ import {
 const Catalog: React.FC<{ 
   courses: Course[], 
   enrollments: Enrollment[], 
-  user: User | null,
+  user: User | null, 
   onCourseClick: (c: Course) => void 
 }> = ({ courses, enrollments, user, onCourseClick }) => {
   return (
@@ -625,14 +624,13 @@ const CoursePlayer: React.FC<{
   );
 };
 
-// ... (Rest of App component wrappers and main App component kept structure but updated styling if necessary, for brevity assume standard wrapper logic)
-
 const App = () => {
   const [user, setUser] = useState<User | null>(null);
   const [courses, setCourses] = useState<Course[]>(MOCK_COURSES);
   const [enrollments, setEnrollments] = useState<Enrollment[]>(MOCK_ENROLLMENTS);
   const [isAuthModalOpen, setAuthModalOpen] = useState(false);
   const [pendingEnrollCourse, setPendingEnrollCourse] = useState<Course | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogin = (u: User) => {
     setUser(u);
@@ -707,6 +705,7 @@ const App = () => {
         user={user} 
         onLogout={handleLogout} 
         onLoginClick={() => setAuthModalOpen(true)} 
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
       />
       <main className="min-h-[calc(100vh-64px)]">
         <Routes>

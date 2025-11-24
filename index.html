@@ -1,63 +1,33 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LMS Terapeuta Analista</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fontes: Montserrat (Corpo) e Poppins (Títulos) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Sala de Análise | Priscilla Moreira</title>
+    <meta name="description" content="Plataforma de Ensino High-End - Terapia Analista Corporal" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-      :root {
-        /* --- Paleta Estrita --- */
-        --bg-brand-dark: #0f0f0f;
-        --bg-brand-darker: #000000;
-        --bg-page-light: #f9fafb;
-        --bg-card-white: #ffffff;
-        
-        --brand-red: #ef4444;
-        --brand-red-hover: #b91c1c;
-        
-        --whatsapp-green: #25D366;
-        --whatsapp-hover: #128C7E;
-
-        --text-main: #111827;
-        --text-muted: #4b5563;
-        
-        --font-heading: 'Poppins', sans-serif;
-        --font-body: 'Montserrat', sans-serif;
-      }
-
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-
       body {
-          font-family: var(--font-body);
-          background-color: var(--bg-page-light);
-          color: var(--text-main);
-          line-height: 1.6;
-          -webkit-font-smoothing: antialiased;
+        background-color: #121212;
+        color: #f3f4f6;
       }
-
-      h1, h2, h3, h4, h5, h6 {
-          font-family: var(--font-heading);
-          font-weight: 700;
-      }
-
-      /* Custom Scrollbar for Sidebar */
+      /* Custom Scrollbar */
       ::-webkit-scrollbar {
-        width: 6px;
+        width: 8px;
+        height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: transparent; 
+        background: #0f0f0f; 
       }
       ::-webkit-scrollbar-thumb {
         background: #333; 
-        border-radius: 3px;
+        border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #555; 
+        background: #ef4444; 
       }
     </style>
   <script type="importmap">
@@ -67,75 +37,30 @@
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
     "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
     "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
-    "tailwind-merge": "https://aistudiocdn.com/tailwind-merge@^3.4.0",
-    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
-    "clsx": "https://aistudiocdn.com/clsx@^2.1.1",
-    "date-fns/": "https://aistudiocdn.com/date-fns@^4.1.0/",
-    "date-fns": "https://aistudiocdn.com/date-fns@^4.1.0",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "@radix-ui/react-radio-group": "https://aistudiocdn.com/@radix-ui/react-radio-group@^1.3.8",
-    "path": "https://aistudiocdn.com/path@^0.12.7",
-    "zod": "https://aistudiocdn.com/zod@^4.1.12",
-    "input-otp": "https://aistudiocdn.com/input-otp@^1.4.2",
-    "@radix-ui/react-collapsible": "https://aistudiocdn.com/@radix-ui/react-collapsible@^1.1.12",
-    "express": "https://aistudiocdn.com/express@^5.1.0",
-    "@radix-ui/react-toast": "https://aistudiocdn.com/@radix-ui/react-toast@^1.2.15",
-    "@radix-ui/react-tabs": "https://aistudiocdn.com/@radix-ui/react-tabs@^1.1.13",
-    "@radix-ui/react-aspect-ratio": "https://aistudiocdn.com/@radix-ui/react-aspect-ratio@^1.1.8",
-    "@radix-ui/react-context-menu": "https://aistudiocdn.com/@radix-ui/react-context-menu@^2.2.16",
-    "tailwindcss": "https://aistudiocdn.com/tailwindcss@^4.1.17",
-    "http": "https://aistudiocdn.com/http@^0.0.1-security",
-    "react-day-picker": "https://aistudiocdn.com/react-day-picker@^9.11.1",
-    "@radix-ui/react-checkbox": "https://aistudiocdn.com/@radix-ui/react-checkbox@^1.3.3",
-    "@radix-ui/react-hover-card": "https://aistudiocdn.com/@radix-ui/react-hover-card@^1.1.15",
-    "@radix-ui/react-menubar": "https://aistudiocdn.com/@radix-ui/react-menubar@^1.1.16",
-    "crypto": "https://aistudiocdn.com/crypto@^1.0.1",
-    "@radix-ui/react-switch": "https://aistudiocdn.com/@radix-ui/react-switch@^1.2.6",
-    "@radix-ui/react-accordion": "https://aistudiocdn.com/@radix-ui/react-accordion@^1.2.12",
-    "@radix-ui/react-tooltip": "https://aistudiocdn.com/@radix-ui/react-tooltip@^1.2.8",
-    "@radix-ui/react-toggle-group": "https://aistudiocdn.com/@radix-ui/react-toggle-group@^1.1.11",
-    "@radix-ui/react-scroll-area": "https://aistudiocdn.com/@radix-ui/react-scroll-area@^1.2.10",
-    "@radix-ui/react-progress": "https://aistudiocdn.com/@radix-ui/react-progress@^1.1.8",
-    "nanoid": "https://aistudiocdn.com/nanoid@^5.1.6",
-    "class-variance-authority": "https://aistudiocdn.com/class-variance-authority@^0.7.1",
-    "@radix-ui/react-alert-dialog": "https://aistudiocdn.com/@radix-ui/react-alert-dialog@^1.1.15",
-    "react-resizable-panels": "https://aistudiocdn.com/react-resizable-panels@^3.0.6",
-    "@radix-ui/react-popover": "https://aistudiocdn.com/@radix-ui/react-popover@^1.1.15",
-    "@radix-ui/react-navigation-menu": "https://aistudiocdn.com/@radix-ui/react-navigation-menu@^1.2.14",
-    "cmdk": "https://aistudiocdn.com/cmdk@^1.1.1",
-    "@radix-ui/react-dialog": "https://aistudiocdn.com/@radix-ui/react-dialog@^1.1.15",
-    "@radix-ui/react-toggle": "https://aistudiocdn.com/@radix-ui/react-toggle@^1.1.10",
-    "vaul": "https://aistudiocdn.com/vaul@^1.1.2",
-    "@radix-ui/react-label": "https://aistudiocdn.com/@radix-ui/react-label@^2.1.8",
-    "embla-carousel-react": "https://aistudiocdn.com/embla-carousel-react@^8.6.0",
-    "@radix-ui/react-select": "https://aistudiocdn.com/@radix-ui/react-select@^2.2.6",
-    "@radix-ui/react-avatar": "https://aistudiocdn.com/@radix-ui/react-avatar@^1.1.11",
-    "@radix-ui/react-separator": "https://aistudiocdn.com/@radix-ui/react-separator@^1.1.8",
-    "@tanstack/react-query": "https://aistudiocdn.com/@tanstack/react-query@^5.90.10",
-    "@radix-ui/react-slot": "https://aistudiocdn.com/@radix-ui/react-slot@^1.2.4",
-    "@radix-ui/react-dropdown-menu": "https://aistudiocdn.com/@radix-ui/react-dropdown-menu@^2.1.16",
-    "@radix-ui/react-slider": "https://aistudiocdn.com/@radix-ui/react-slider@^1.3.6",
-    "react-hook-form": "https://aistudiocdn.com/react-hook-form@^7.66.1",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
-    "drizzle-orm/": "https://aistudiocdn.com/drizzle-orm@^0.44.7/",
-    "drizzle-orm": "https://aistudiocdn.com/drizzle-orm@^0.44.7",
-    "wouter": "https://aistudiocdn.com/wouter@^3.7.1",
-    "drizzle-zod": "https://aistudiocdn.com/drizzle-zod@^0.8.3",
-    "@replit/vite-plugin-runtime-error-modal": "https://aistudiocdn.com/@replit/vite-plugin-runtime-error-modal@^0.0.3",
     "drizzle-kit": "https://aistudiocdn.com/drizzle-kit@^0.31.7",
-    "@replit/vite-plugin-cartographer": "https://aistudiocdn.com/@replit/vite-plugin-cartographer@^0.4.4",
-    "@replit/vite-plugin-dev-banner": "https://aistudiocdn.com/@replit/vite-plugin-dev-banner@^0.1.1",
+    "tailwindcss": "https://aistudiocdn.com/tailwindcss@^4.1.17",
+    "module": "https://aistudiocdn.com/module@^2.0.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "path": "https://aistudiocdn.com/path@^0.12.7",
     "url": "https://aistudiocdn.com/url@^0.11.4",
-    "module": "https://aistudiocdn.com/module@^2.0.0"
+    "drizzle-orm": "https://aistudiocdn.com/drizzle-orm@^0.44.7",
+    "drizzle-orm/": "https://aistudiocdn.com/drizzle-orm@^0.44.7/",
+    "drizzle-zod": "https://aistudiocdn.com/drizzle-zod@^0.8.3",
+    "zod": "https://aistudiocdn.com/zod@^4.1.12",
+    "crypto": "https://aistudiocdn.com/crypto@^1.0.1",
+    "express": "https://aistudiocdn.com/express@^5.1.0",
+    "http": "https://aistudiocdn.com/http@^0.0.1-security",
+    "nanoid": "https://aistudiocdn.com/nanoid@^5.1.6"
   }
 }
 </script>
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
