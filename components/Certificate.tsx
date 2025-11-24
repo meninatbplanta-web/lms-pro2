@@ -47,14 +47,14 @@ export const Certificate: React.FC<CertificateProps> = ({ user, course, date, on
              <p className="text-xl text-gray-600 mb-4">Por ter completado com sucesso o curso</p>
              <h3 className="text-3xl font-bold text-indigo-800 mb-6">{course.title}</h3>
              <p className="text-gray-500">
-                 Demonstrando dedicação, esforço e domínio do conteúdo ministrado na plataforma LMS Pro.
+                 Demonstrando dedicação, esforço e domínio do conteúdo ministrado na plataforma Priscilla Moreira.
              </p>
          </div>
 
          <div className="flex justify-around w-full mt-12">
              <div className="text-center">
                  <div className="w-48 border-b border-gray-900 mb-2"></div>
-                 <p className="font-bold text-gray-800">LMS Pro Direção</p>
+                 <p className="font-bold text-gray-800">Priscilla Moreira Direção</p>
              </div>
              <div className="text-center">
                  <p className="font-bold text-lg text-gray-900 mb-2">{new Date(date).toLocaleDateString('pt-BR')}</p>

@@ -3,26 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LMS Pro</title>
+    <title>Priscilla Moreira</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fontes: Montserrat (Corpo) e Poppins (Títulos) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-      body {
-        font-family: 'Inter', sans-serif;
+      /* =========================================
+         DESIGN SYSTEM - TERAPEUTA ANALISTA
+         ================================********* */
+
+      :root {
+          /* --- Paleta de Cores --- */
+          --primary-dark: #0f0f0f;    /* Fundo Hero / Escuro */
+          --primary-darker: #000000;  /* Preto Puro / Rodapés */
+          --text-main: #111827;       /* Texto Principal */
+          --text-muted: #4b5563;      /* Texto Secundário */
+          --text-light: #d1d5db;      /* Texto Claro em fundos escuros */
+          --white: #ffffff;
+          --bg-gray: #f9fafb;         /* Fundo de seções claras */
+
+          /* --- Cores de Ação e Destaque --- */
+          --brand-red: #ef4444;       /* Vermelho Principal (Títulos/Destaques) */
+          --brand-red-hover: #b91c1c; /* Vermelho Escuro */
+          --brand-red-light: #fca5a5; /* Vermelho Claro */
+          
+          --whatsapp-green: #25D366;  /* Botões de Ação (CTA) */
+          --whatsapp-hover: #128C7E;  /* Hover do Botão */
+
+          /* --- Tipografia --- */
+          --font-body: 'Montserrat', sans-serif;
+          --font-heading: 'Poppins', sans-serif;
       }
+
+      /* =========================================
+         RESET E BASE
+         ================================********* */
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+          font-family: var(--font-body);
+          color: var(--text-main);
+          background-color: var(--white);
+          line-height: 1.6;
+          -webkit-font-smoothing: antialiased;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+          font-family: var(--font-heading);
+          font-weight: 700;
+          line-height: 1.2;
+      }
+
       /* Custom scrollbar for better aesthetics */
       ::-webkit-scrollbar {
         width: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
+        background: #f3f4f6; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
+        background: #d1d5db; 
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
+        background: #9ca3af; 
       }
       @media print {
         .no-print {
@@ -32,6 +78,111 @@
             display: block !important;
         }
       }
+
+      /* =========================================
+         COMPONENTES UI
+         ================================********* */
+
+      /* 1. Botão Principal (Estilo WhatsApp/Conversão) */
+      .btn-cta {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
+          background-color: var(--whatsapp-green);
+          color: var(--white);
+          padding: 1.25rem 2rem;
+          font-size: 1.125rem;
+          font-weight: 800;
+          border-radius: 9999px;
+          border: none;
+          cursor: pointer;
+          text-decoration: none;
+          text-transform: uppercase;
+          box-shadow: 0 10px 15px -3px rgba(37, 211, 102, 0.3);
+          transition: all 0.3s ease;
+          width: 100%;
+          max-width: 500px;
+          text-align: center;
+      }
+
+      .btn-cta:hover {
+          background-color: var(--whatsapp-hover);
+          transform: translateY(-4px);
+          box-shadow: 0 20px 25px -5px rgba(37, 211, 102, 0.4);
+      }
+
+      /* 2. Cards com Borda de Destaque */
+      .card-accent {
+          background: var(--white);
+          border: 1px solid #e5e7eb;
+          border-left: 4px solid var(--brand-red); /* O detalhe vermelho à esquerda */
+          padding: 1.5rem;
+          border-radius: 0.5rem;
+          box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+          text-align: left;
+          transition: transform 0.3s ease;
+      }
+
+      .card-accent:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-accent h3 {
+          color: var(--brand-red);
+          font-size: 1.25rem;
+          margin-bottom: 0.5rem;
+      }
+
+      /* 3. Badge (Etiqueta de Aviso) */
+      .badge-red {
+          display: inline-block;
+          padding: 0.5rem 1.5rem;
+          font-size: 0.875rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--white);
+          background-color: var(--brand-red);
+          border-radius: 9999px;
+          box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
+      }
+
+      /* 4. Títulos de Seção */
+      .section-title {
+          font-size: 2.25rem;
+          font-weight: 800;
+          color: var(--primary-darker);
+          margin-bottom: 1rem;
+          text-align: center;
+      }
+
+      .section-subtitle {
+          font-size: 1.125rem;
+          color: var(--text-muted);
+          text-align: center;
+          margin-bottom: 3rem;
+      }
+
+      /* =========================================
+         UTILITÁRIOS
+         ================================********* */
+      .container {
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1rem;
+      }
+
+      .bg-dark { background-color: var(--primary-dark); color: var(--white); }
+      .bg-gray { background-color: var(--bg-gray); }
+      .text-red { color: var(--brand-red); }
+      .text-center { text-align: center; }
+
+      /* Para fundos escuros */
+      .bg-dark .section-title { color: var(--white); }
+      .bg-dark p { color: var(--text-light); }
     </style>
   <script type="importmap">
 {
@@ -107,7 +258,7 @@
 }
 </script>
 </head>
-  <body class="bg-slate-50 text-slate-900">
+  <body class="bg-[#f9fafb] text-[#111827]">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
