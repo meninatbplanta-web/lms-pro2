@@ -1,7 +1,9 @@
 
 import { Course } from "../types";
 
-const apiKey = process.env.API_KEY || '';
+const apiKey = (typeof import.meta !== "undefined" ? import.meta.env?.VITE_API_KEY : undefined) 
+  || process.env.API_KEY 
+  || "";
 
 export const generateCourseOutline = async (topic: string, audience: string): Promise<Partial<Course> | null> => {
   if (!apiKey) {
@@ -72,31 +74,48 @@ export const generateCourseOutline = async (topic: string, audience: string): Pr
     const result = await response.json();
     const output = result?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-    if (output) {
-      const data = JSON.parse(output);
-      // Transform to match our internal ID structure
-      const courseData: Partial<Course> = {
-        title: data.title,
-        description: data.description,
-        price: 0,
-        thumbnail: `https://picsum.photos/seed/${encodeURIComponent(topic)}/800/600`,
-        modules: data.modules.map((mod: any, idx: number) => ({
-          id: `mod-${Date.now()}-${idx}`,
-          title: mod.title,
-          lessons: mod.lessons.map((les: any, lIdx: number) => ({
-            id: `les-${Date.now()}-${idx}-${lIdx}`,
-            title: les.title,
-            duration: les.duration,
-            content: les.content,
-            releaseDate: undefined // Available immediately by default
-          }))
-        }))
-      };
-      return courseData;
+    if (!output) {
+      console.error("No structured response returned by Gemini", result);
+      return null;
     }
-    return null;
+
+    const parsed = safeJsonParse(output);
+
+    if (!parsed) {
+      console.error("Gemini returned an invalid JSON payload", output);
+      return null;
+    }
+
+    // Transform to match our internal ID structure
+    const courseData: Partial<Course> = {
+      title: parsed.title,
+      description: parsed.description,
+      price: 0,
+      thumbnail: `https://picsum.photos/seed/${encodeURIComponent(topic)}/800/600`,
+      modules: (parsed.modules || []).map((mod: any, idx: number) => ({
+        id: `mod-${Date.now()}-${idx}`,
+        title: mod.title,
+        lessons: (mod.lessons || []).map((les: any, lIdx: number) => ({
+          id: `les-${Date.now()}-${idx}-${lIdx}`,
+          title: les.title,
+          duration: les.duration,
+          content: les.content,
+          releaseDate: undefined // Available immediately by default
+        }))
+      }))
+    };
+    return courseData;
   } catch (error) {
     console.error("Error generating course:", error);
     throw error;
   }
 };
+
+function safeJsonParse(text: string) {
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    console.error("Failed to parse Gemini response", error);
+    return null;
+  }
+}
